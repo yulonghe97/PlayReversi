@@ -1,0 +1,28 @@
+{
+  "name": "playreversi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "^0.0.1-security",
+    "mongoose": "^5.10.12",
+    "nodemon": "^2.0.6",
+    "readline-sync": "^1.4.10",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yulonghe97/PlayReversi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yulonghe97/PlayReversi/issues"
+  },
+  "homepage": "https://github.com/yulonghe97/PlayReversi#readme"
+}
