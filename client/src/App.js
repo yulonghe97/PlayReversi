@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://127.0.0.1:8001";
+import Game from "./Components/Game";
+import GamePage from "./View/Game/GamePage";
+import NavBar from "./Components/NavBar/";
 
 function App() {
   const [response, setResponse] = useState("");
 
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
-    socket.on("FromAPI", (data) => {
-      setResponse((data));
-    });
   }, []);
 
+
+
   return (
-    <p>
-      It's <time dateTime={response}>{response}</time>
-    </p>
+    <>
+      {/* It's <time dateTime={response}>{response}</time> */}
+      <NavBar />
+      <GamePage />
+    </>
   );
 }
 

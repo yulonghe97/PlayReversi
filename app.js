@@ -6,6 +6,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const server = http.createServer(app);
 const io = socketIo(server);
+const initListeners = require("./Socket/listeners");
 
 // Routers
 const gameCoreRouter = require("./Routes/game/gameApi");
@@ -18,29 +19,9 @@ app.set("json spaces", 2);
 // Setup Routers
 app.use("/game", gameCoreRouter);
 
-// Socket.io Initialization
-let interval;
+// Initialize Socket IO Listeners
+initListeners(io);
 
-io.on("connection", (socket) => {
-  console.log("New client connected");
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-    clearInterval(interval);
-  });
-});
-
-/*
-    Function to Test Socket.io
-*/
-const getApiAndEmit = (socket) => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", response.toLocaleString());
-};
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to PlayReversi API" });

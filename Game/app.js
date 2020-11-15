@@ -48,6 +48,10 @@ if (process.argv[2] !== undefined) {
   IntializeGame();
 }
 
+function assignRandomRoomId (){
+  return Math.random().toString(36).substring(2, 8)
+}
+
 /*
     Initialize Game without the scripted moving
     # it will ask player the width of the board
@@ -91,9 +95,9 @@ function IntializeGame(width, letter) {
   //     }
   //   }
 
-  console.log("-".repeat(20));
-  console.log(`Player is ${letter}`);
-  console.log("-".repeat(20));
+  // console.log("-".repeat(20));
+  // console.log(`Player is ${letter}`);
+  // console.log("-".repeat(20));
 
   // Initialize the Board with 4 pieces in the center
 
@@ -115,7 +119,7 @@ function IntializeGame(width, letter) {
   ] = "X";
 
   // Return the Initialized Board
-  return board;
+  return {roomId: assignRandomRoomId(), board: board};
 
   // ---- Old code ----
 
