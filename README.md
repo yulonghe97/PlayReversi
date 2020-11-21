@@ -1,4 +1,4 @@
-# PlayReversi
+## PlayReversi
 
 ---
 
