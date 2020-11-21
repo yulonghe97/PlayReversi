@@ -1,6 +1,5 @@
-## PlayReversi
+# PlayReversi
 
----
 
 ## Description
 
