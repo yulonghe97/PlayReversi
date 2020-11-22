@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Grid, Box } from "@material-ui/core";
 import Game from "../../Components/Game";
-import ScoreCounter from "../../Components/Game/ScoreCounter/";
-import GameUserInfo from "../../Components/GameUserInfo/";
+import ScoreCounter from "../../Components/Game/ScoreCounter";
+import GameUserInfo from "../../Components/GameUserInfo";
 import { socket } from "../../service/socket";
 import { GameContext } from "./store/context";
 import { useParams } from "react-router-dom";
 
-export default function GamePage() {
+export default function GamePlayPage() {
   const [lastMove, setLastMove] = useState("");
+  const [user, setUser] = useState([]);
   const [board, setBoard] = useState([]);
-  const [roomId, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState([]);
   const { id } = useParams();
+
+  // const { room, setRoom } = useContext(GameContext);
+
+  // get user info
+  const currentUser = {
+    username: window.localStorage.getItem("currentUser"),
+  };
+
+  useEffect(() => {
+    setUser([currentUser]);
+  }, [])
 
   useEffect(() => {
     socket.emit("chessDown", { room: roomId, lastMove: lastMove });
@@ -19,11 +31,18 @@ export default function GamePage() {
 
   useEffect(() => {
     setRoomId(id);
-    socket.emit("joinRoom", { roomId: id });
+    socket.emit("joinRoom", { roomId: id, user: currentUser.username });
     socket.emit("initializeGame", "true");
+
+    // Wait for opponent to join
+    socket.on("joinRoom", (data) => {
+        setUser([...user, {username: data.user}])
+    })
+
     socket.on("initializeGame", (data) => {
       setBoard(data.board);
     });
+
   }, []);
 
   return (
@@ -65,7 +84,7 @@ export default function GamePage() {
           <Grid item xs={12} sm={4} md={3} lg={3}>
             <Box display="flex" flexDirection="column">
               <Box paddingBottom="40px">
-                <GameUserInfo />
+                <GameUserInfo users={user} />
               </Box>
             </Box>
           </Grid>

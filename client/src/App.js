@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Routes from "./routes";
 import Game from "./Components/Game";
-import GamePage from "./View/Game/GamePage";
+import GamePage from "./View/Game/GamePlayPage";
 import NavBar from "./Components/NavBar/";
 
 function App() {

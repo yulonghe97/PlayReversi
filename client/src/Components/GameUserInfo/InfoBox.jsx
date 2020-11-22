@@ -3,7 +3,7 @@ import { Grid, Box, Avatar, Typography, Divider } from "@material-ui/core";
 import avatarImg from "../../Asset/img/avatar.jpg";
 
 
-export default function InfoBox() {
+export default function InfoBox(props) {
     return (
         <Box
         padding="20px"
@@ -30,7 +30,7 @@ export default function InfoBox() {
           <Grid xs={9}>
             <Box display="flex" flexDirection="column" marginLeft="10px">
               <Box pb="5px" style={{ fontSize: "16px", fontWeight: "600px" }}>
-                Purple Whale
+                {props.username}
               </Box>
               <Box paddingBottom="10px">NYU</Box>
               <Divider />

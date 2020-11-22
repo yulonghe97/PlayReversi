@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "chalk": "^4.1.0",
     "express": "^4.17.1",
     "http": "^0.0.1-security",
     "mongoose": "^5.10.12",

@@ -23,10 +23,10 @@ export default function ScoreCounter() {
           </Box>
         </Grid>
         <Grid item xs={3}>
-          ⚫&nbsp;6
+          ⚫&nbsp;0
         </Grid>
         <Grid item xs={3}>
-          ⚪&nbsp;10
+          ⚪&nbsp;0
         </Grid>
       </Grid>
     </div>
