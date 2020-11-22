@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
     score:{
         type: Number,
         default: 0,
+    },
+    avatar:{
+        type: String
     }
 
 });

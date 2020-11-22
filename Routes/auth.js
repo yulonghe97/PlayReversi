@@ -14,12 +14,12 @@ router.post("/register", async (req, res) => {
 
   //check if the combination is valid (满足长度等需求)
   const { error } = registerValidation(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
+  if (error) return res.status(200).send({ message: error.details[0].message });
 
   // check if the user is already in the database
   const emailExist = await User.findOne({ email: req.body.email });
   if (emailExist) {
-    return res.status(400).send({ message: "EmailExist", success: false });
+    return res.status(200).send({ message: "Email Exist", success: false });
   }
 
   //hash the password
@@ -31,15 +31,16 @@ router.post("/register", async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
+    avatar: req.body.avatar,
   });
 
   // save the user in the database, and respond
   try {
     const savedUser = await user.save();
     console.log(savedUser);
-    res.json({message: "RegisterSuccess", user: savedUser});
+    res.json({success: true, message: "Register Success", user: savedUser});
   } catch (err) {
-    res.send({ message: err.message });
+    res.send({ success: false, message: err.message });
     res.status(400).json({ message: err.message });
   }
 });
@@ -61,18 +62,18 @@ router.post("/login", async (req, res) => {
   console.log(req.body);
   //basic step of validation: check things like length
   const { error } = loginValidation(req.body);
-  if (error) return res.status(400).send({ message: error.details[0].message });
+  if (error) return res.status(200).send({ message: error.details[0].message });
 
   // if the email exist in the database
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return res.status(400).json({ message: "EmailNotFound" });
+    return res.status(200).json({ message: "Email Not Found" });
   }
 
   //check if the password is right
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) {
-    return res.status(400).json({ message: "PasswordIncorrect" });
+    return res.status(200).json({ message: "Password Incorrect" });
   }
 
   //create a token
