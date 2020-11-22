@@ -26,7 +26,7 @@ export default function GamePlayPage() {
   }, [])
 
   useEffect(() => {
-    socket.emit("chessDown", { room: roomId, lastMove: lastMove });
+    socket.emit("chessDown", { room: roomId, lastMove: lastMove, userId: socket.id });
   }, [lastMove]);
 
   useEffect(() => {
