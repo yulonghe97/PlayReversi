@@ -2,6 +2,7 @@
 const express = require("./node_modules/express");
 const app = express();
 const http = require("http");
+const cors = require('cors')
 
 // Setup Socket.IO, bind to Express
 const socketIo = require("socket.io");
@@ -24,11 +25,13 @@ const postRoute = require("./routes/post");
 dotenv.config();
 
 // Format the JSON Response
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/user", authRoute);
 app.use("/api/post", postRoute);
 app.set("json spaces", 2);
+
 
 // Setup Routers
 app.use("/game", gameCoreRouter);

@@ -7,6 +7,7 @@ const registerValidation = (data) => {
     name: Joi.string().min(6).required(),
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).required(),
+    avatar: Joi.string()
   });
 
   //validate the data before save
