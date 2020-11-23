@@ -21,20 +21,25 @@ const mongoose = require("mongoose");
 const gameCoreRouter = require("./routes/game/gameApi");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/post");
+const roomRoute = require("./routes/rooms/index");
+const userRoute = require("./routes/user/index");
 
 dotenv.config();
 
-// Format the JSON Response
 app.use(cors())
+
+// Format the JSON Response
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/user", authRoute);
-app.use("/api/post", postRoute);
 app.set("json spaces", 2);
-
 
 // Setup Routers
 app.use("/game", gameCoreRouter);
+app.use("/api/user", authRoute);
+app.use("/api/post", postRoute);
+app.use("/api/room", roomRoute);
+app.use("/api/userinfo", userRoute);
+
 
 // Initialize Socket IO Listeners
 initListeners(io);

@@ -10,8 +10,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useCookies } from 'react-cookie';
 import Logo from "../../Asset/img/reversi-logo-01.svg";
 import "../../Asset/loading.css";
+
 
 // Login Controller
 import login from "../../controller/user/login";
@@ -31,6 +33,8 @@ export default function LoginPage() {
 
   const classes = useStyle();
 
+  const [cookies, setCookie] = useCookies(['_user']);
+
   const isNewAccount = (message) => {
     return message === "Email Not Found";
   };
@@ -47,13 +51,16 @@ export default function LoginPage() {
     const loginRequest = async () => {
       const res = await login(username, password);
       if (res.data.token) {
-        window.location.href = "/";
+        window.localStorage.setItem("_user", JSON.stringify(res.data.user));
+        setCookie("_userId", res.data.user._id);
+        setCookie("_token", res.data.token);
+        window.location.href = "/"
       } else {
         isNewAccount(res.data.message)
           ? setupRegister()
-          : setTimeout(() => setError(res.data.message), 1000);
+          : setError(res.data.message)
       }
-      setTimeout(() => setLoading(false), 1000);
+      setLoading(false);
     };
     loginRequest();
   };
