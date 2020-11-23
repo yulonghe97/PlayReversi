@@ -30,6 +30,11 @@ const roomSchema = new mongoose.Schema({
     required: true,
     default: true,
   },
+  spectators:{
+      type: [mongoose.Schema.Types.ObjectID],
+      ref: "User",
+      required: true,
+  },
   sessionId: {
     type: [String],
   },

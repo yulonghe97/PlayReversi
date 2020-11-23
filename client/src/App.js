@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Routes from "./routes";
 import "./Asset/loading.css";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { CookiesProvider } from 'react-cookie';
 
 const theme = createMuiTheme({
   palette: {
@@ -10,7 +11,7 @@ const theme = createMuiTheme({
       errorColor: "#e33371",
     },
     secondary: {
-      main: "#26c6da",
+      main: "#4dff7c",
     },
   },
   typography: {
@@ -38,8 +39,10 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
+      <CookiesProvider>
         {/* <NavBar /> */}
         <Routes />
+        </CookiesProvider>
       </ThemeProvider>
     </>
   );
