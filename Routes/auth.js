@@ -3,6 +3,9 @@ const User = require("../model/User");
 const { registerValidation, loginValidation } = require("../utils/validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const redis = require("redis");
+const RedisClient  = redis.createClient();
+
 
 /**
  * Register User
@@ -77,7 +80,7 @@ router.post("/login", async (req, res) => {
   }
 
   //create a token
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET,{expiresIn: '24h'});
 
 
   // sign in and return token and user info
@@ -93,5 +96,21 @@ router.post("/login", async (req, res) => {
 
   //res.send(token,savedUser);
 });
+
+
+
+
+router.get("/logout", async (req, res) => {
+
+  // get token by header and store it in the redis, set the token
+  const token = req.header("auth-token");
+  RedisClient.setex(token,86400,"invalid");
+
+  // the key expires in 24 hours
+  //RedisClient.expire(token,86400);
+ res.json({success: true, message: "User Logged Out!"})
+
+});
+
 
 module.exports = router;
