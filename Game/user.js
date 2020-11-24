@@ -1,8 +1,11 @@
 // For testing purpose, without any database connection
+const User = require("../model/User");
+const log = require("../utils/log");
 
 function registerUser(rooms, newUser) {
   const roomId = newUser.room;
 
+  console.log(newUser);
   // Check Rooms
   if (rooms.hasOwnProperty(newUser.room)) {
     // Check Users
@@ -10,7 +13,7 @@ function registerUser(rooms, newUser) {
       rooms[newUser.room] = [
         ...rooms[newUser.room],
         {
-          username: newUser.username,
+          user: newUser.user,
           socketId: newUser.socketId,
           room: newUser.room,
         },
@@ -19,7 +22,7 @@ function registerUser(rooms, newUser) {
   } else {
     rooms[newUser.room] = [
       {
-        username: newUser.username,
+        user: newUser.user,
         socketId: newUser.socketId,
         room: newUser.room,
       },
@@ -38,6 +41,17 @@ function CheckUserExist(room, user) {
   return false;
 }
 
+async function findUser(userId){
+  try{
+    const user = await User.findById(userId).lean();
+    delete user.password;
+    return user;
+  }catch(e){
+    log(e.message, "error");
+  }
+}
+
 module.exports = {
   registerUser: registerUser,
+  findUser: findUser,
 };

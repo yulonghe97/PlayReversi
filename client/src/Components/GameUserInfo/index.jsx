@@ -8,7 +8,7 @@ export default function GameUserInfo(props) {
    <>
       <Box display="flex" flexDirection="column" paddingTop="100px">
           {props.users.map((e) => {
-            return <InfoBox username={e.username} />
+            return <InfoBox username={e.name} />
           })}
       </Box>
    </>

@@ -3,28 +3,27 @@ import { Box, Button } from "@material-ui/core";
 import GameUserInfo from "../../Components/GameUserInfo/";
 import { useParams } from "react-router-dom";
 import { socket } from "../../service/socket";
-import { GameContext } from "./store/context";
+// import { GameContext } from "../Game/store/context";
 
 export default function WaitingRoom() {
   const { id } = useParams();
 
-  const { room, setRoom } = useContext(GameContext);
+  const [ room, setRoom ] = useState("");
 
   // get user info
-  const currentUser = {
-    username: window.localStorage.getItem("currentUser"),
-  };
-
+  const currentUser = JSON.parse(window.localStorage.getItem("_user"));
   // Join the waiting room
+
+
   useEffect(() => {
     setRoom([currentUser]);
     socket.on("joinRoom", (data) => setRoom(data));
     socket.on("leaveRoom", (data) => setRoom(data));
-    socket.emit("joinRoom", { roomId: id, user: currentUser.username });
+    socket.emit("joinRoom", { roomId: id, user: currentUser.name, userId: currentUser._id });
   }, []);
 
   const onLeaveRoom = () => {
-    socket.emit("leaveRoom", { roomId: id, user: currentUser.username });
+    socket.emit("leaveRoom", { roomId: id, userId: currentUser._id });
     window.location.href = "/";
   };
 
@@ -36,16 +35,16 @@ export default function WaitingRoom() {
       {/* <Box display="flex" justifyContent="center">
         <GameUserInfo users={room} />
       </Box> */}
-      {/* <Box display="flex" justifyContent="center" mt="40px">
-      {room.length !== 2 ? (
-        <Button variant="contained" color="primary" disabled>
-          Start
-        </Button>
-      ) : (
-        <Button variant="contained" color="primary">
-          Start
-        </Button>
-      )}
+      <Box display="flex" justifyContent="center" mt="40px">
+        {/* {room.length !== 2 ? (
+          <Button variant="contained" color="primary" disabled>
+            Start
+          </Button>
+        ) : (
+          <Button variant="contained" color="primary">
+            Start
+          </Button>
+        )} */}
         <Button
           variant="contained"
           color="secondary"
@@ -54,7 +53,7 @@ export default function WaitingRoom() {
         >
           Leave
         </Button>
-      </Box> */}
+      </Box>
     </>
   );
 }

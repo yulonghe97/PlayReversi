@@ -1,0 +1,144 @@
+Date : 2020-11-24 16:23:21
+Directory : /Users/heyulong/Documents/GitHub/PlayReversi
+Total : 75 files,  22052 codes, 437 comments, 689 blanks, all 23178 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          5 |     18,337 |          0 |          5 |     18,342 |
+| JavaScript |         62 |      2,606 |        296 |        560 |      3,462 |
+| CSS        |          4 |      1,066 |        127 |        106 |      1,299 |
+| Markdown   |          2 |         21 |          0 |         15 |         36 |
+| HTML       |          1 |         21 |         14 |          3 |         38 |
+| XML        |          1 |          1 |          0 |          0 |          1 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                           | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                              |         75 |     22,052 |        437 |        689 |     23,178 |
+| Database                                                                                       |          1 |          0 |          0 |          1 |          1 |
+| Game                                                                                           |          4 |        773 |        150 |        276 |      1,199 |
+| Routes                                                                                         |          6 |        116 |         42 |         36 |        194 |
+| Routes/game                                                                                    |          1 |         12 |          1 |          4 |         17 |
+| Routes/rooms                                                                                   |          1 |         13 |          0 |          6 |         19 |
+| Routes/user                                                                                    |          1 |         13 |          6 |          3 |         22 |
+| Socket                                                                                         |          8 |         99 |         15 |         23 |        137 |
+| Socket/events                                                                                  |          3 |         61 |          3 |         16 |         80 |
+| Socket/listeners                                                                               |          5 |         38 |         12 |          7 |         57 |
+| client                                                                                         |         46 |     18,811 |        212 |        303 |     19,326 |
+| client/public                                                                                  |          2 |         46 |         14 |          4 |         64 |
+| client/src                                                                                     |         41 |      2,494 |        198 |        296 |      2,988 |
+| client/src/Asset                                                                               |          2 |      1,024 |        118 |         95 |      1,237 |
+| client/src/Asset/img                                                                           |          1 |          1 |          0 |          0 |          1 |
+| client/src/Components                                                                          |         14 |        536 |          9 |         66 |        611 |
+| client/src/Components/Game                                                                     |          6 |        128 |          9 |         31 |        168 |
+| client/src/Components/Game/Board                                                               |          2 |         29 |          0 |          6 |         35 |
+| client/src/Components/Game/ScoreCounter                                                        |          1 |         31 |          0 |          4 |         35 |
+| client/src/Components/Game/Square                                                              |          1 |         21 |          0 |          6 |         27 |
+| client/src/Components/Game/style                                                               |          1 |         31 |          9 |          8 |         48 |
+| client/src/Components/GameUserInfo                                                             |          2 |         57 |          0 |          5 |         62 |
+| client/src/Components/LogoHeader                                                               |          1 |         12 |          0 |          2 |         14 |
+| client/src/Components/NavBar                                                                   |          1 |         43 |          0 |          5 |         48 |
+| client/src/Components/Room                                                                     |          3 |        256 |          0 |         14 |        270 |
+| client/src/Components/UserProfile                                                              |          1 |         40 |          0 |          9 |         49 |
+| client/src/View                                                                                |         11 |        677 |         41 |         78 |        796 |
+| client/src/View/Game                                                                           |          6 |        268 |         31 |         35 |        334 |
+| client/src/View/Game/store                                                                     |          1 |          3 |          0 |          2 |          5 |
+| client/src/View/Login                                                                          |          4 |        347 |          8 |         33 |        388 |
+| client/src/View/Login/store                                                                    |          1 |          3 |          0 |          2 |          5 |
+| client/src/View/Room                                                                           |          1 |         62 |          2 |         10 |         74 |
+| client/src/context                                                                             |          1 |         24 |          4 |          7 |         35 |
+| client/src/controller                                                                          |          3 |         30 |          0 |         10 |         40 |
+| client/src/controller/user                                                                     |          3 |         30 |          0 |         10 |         40 |
+| client/src/model                                                                               |          2 |         32 |          0 |         11 |         43 |
+| client/src/model/user                                                                          |          1 |         20 |          0 |          4 |         24 |
+| client/src/service                                                                             |          1 |          2 |          0 |          1 |          3 |
+| client/src/utils                                                                               |          2 |         35 |          5 |          8 |         48 |
+| model                                                                                          |          3 |        114 |          0 |          9 |        123 |
+| utils                                                                                          |          3 |         39 |          8 |         11 |         58 |
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                       | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/heyulong/Documents/GitHub/PlayReversi/Database/db.js                                    | JavaScript |          0 |          0 |          1 |          1 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Game/app.js                                       | JavaScript |        221 |         89 |         56 |        366 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Game/game.js                                      | JavaScript |         15 |          0 |          4 |         19 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Game/reversi.js                                   | JavaScript |        502 |         57 |        211 |        770 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Game/user.js                                      | JavaScript |         35 |          4 |          5 |         44 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/README.md                                         | Markdown   |         19 |          0 |         14 |         33 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Routes/auth.js                                    | JavaScript |         53 |         29 |         16 |         98 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Routes/game/gameApi.js                            | JavaScript |         12 |          1 |          4 |         17 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Routes/post.js                                    | JavaScript |         10 |          1 |          3 |         14 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Routes/rooms/index.js                             | JavaScript |         13 |          0 |          6 |         19 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Routes/user/index.js                              | JavaScript |         13 |          6 |          3 |         22 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Routes/verifyToken.js                             | JavaScript |         15 |          5 |          4 |         24 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Socket/events/connected.js                        | JavaScript |         43 |          3 |         14 |         60 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Socket/events/index.js                            | JavaScript |         18 |          0 |          1 |         19 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Socket/events/test.js                             | JavaScript |          0 |          0 |          1 |          1 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Socket/listeners/connected.js                     | JavaScript |          6 |          0 |          1 |          7 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Socket/listeners/disconnect.js                    | JavaScript |          5 |          0 |          1 |          6 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Socket/listeners/index.js                         | JavaScript |         17 |          4 |          1 |         22 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Socket/listeners/test.js                          | JavaScript |          5 |          0 |          1 |          6 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/Socket/listeners/time.js                          | JavaScript |          5 |          8 |          3 |         16 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/app.js                                            | JavaScript |         38 |         10 |         14 |         62 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/README.md                                  | Markdown   |          2 |          0 |          1 |          3 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/package-lock.json                          | JSON       |     16,219 |          0 |          1 |     16,220 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/package.json                               | JSON       |         50 |          0 |          1 |         51 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/public/index.html                          | HTML       |         21 |         14 |          3 |         38 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/public/manifest.json                       | JSON       |         25 |          0 |          1 |         26 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/App.css                                | CSS        |          0 |          0 |          1 |          1 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/App.js                                 | JavaScript |         46 |          0 |          6 |         52 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Asset/img/reversi-logo-01.svg          | XML        |          1 |          0 |          0 |          1 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Asset/loading.css                      | CSS        |      1,023 |        118 |         95 |      1,236 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Game/Board/Row.jsx          | JavaScript |         12 |          0 |          3 |         15 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Game/Board/index.jsx        | JavaScript |         17 |          0 |          3 |         20 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Game/ScoreCounter/index.jsx | JavaScript |         31 |          0 |          4 |         35 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Game/Square/index.jsx       | JavaScript |         21 |          0 |          6 |         27 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Game/index.js               | JavaScript |         16 |          0 |          7 |         23 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Game/style/index.css        | CSS        |         31 |          9 |          8 |         48 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/GameUserInfo/InfoBox.jsx    | JavaScript |         42 |          0 |          3 |         45 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/GameUserInfo/index.jsx      | JavaScript |         15 |          0 |          2 |         17 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/LogoHeader/index.jsx        | JavaScript |         12 |          0 |          2 |         14 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/NavBar/index.jsx            | JavaScript |         43 |          0 |          5 |         48 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Room/RoomItem.jsx           | JavaScript |         76 |          0 |          6 |         82 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Room/RoomListTable.jsx      | JavaScript |        117 |          0 |          4 |        121 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/Room/RoomSearchBar.jsx      | JavaScript |         63 |          0 |          4 |         67 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/Components/UserProfile/index.jsx       | JavaScript |         40 |          0 |          9 |         49 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Game/GamePlayPage.js              | JavaScript |         78 |         27 |         12 |        117 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Game/JoinRoom.js                  | JavaScript |         63 |          1 |          5 |         69 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Game/Table.js                     | JavaScript |         55 |          0 |          6 |         61 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Game/WaitingRoom.js               | JavaScript |         52 |          2 |          7 |         61 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Game/index.js                     | JavaScript |         17 |          1 |          3 |         21 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Game/store/context.js             | JavaScript |          3 |          0 |          2 |          5 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Login/RandomAvatar.js             | JavaScript |         18 |          0 |          5 |         23 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Login/Register.js                 | JavaScript |        186 |          4 |         13 |        203 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Login/index.js                    | JavaScript |        140 |          4 |         13 |        157 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Login/store/context.js            | JavaScript |          3 |          0 |          2 |          5 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/View/Room/RoomList.js                  | JavaScript |         62 |          2 |         10 |         74 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/context/UserContext.js                 | JavaScript |         24 |          4 |          7 |         35 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/controller/user/getInfo.js             | JavaScript |         10 |          0 |          3 |         13 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/controller/user/login.js               | JavaScript |         10 |          0 |          4 |         14 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/controller/user/register.js            | JavaScript |         10 |          0 |          3 |         13 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/index.css                              | CSS        |         12 |          0 |          2 |         14 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/index.js                               | JavaScript |         10 |          0 |          3 |         13 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/model/apiConfig.js                     | JavaScript |         12 |          0 |          7 |         19 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/model/user/index.js                    | JavaScript |         20 |          0 |          4 |         24 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/routes.js                              | JavaScript |         66 |         21 |          8 |         95 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/service/socket.js                      | JavaScript |          2 |          0 |          1 |          3 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/utils/checkAuth.js                     | JavaScript |         10 |          2 |          3 |         15 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/client/src/utils/cookie.js                        | JavaScript |         25 |          3 |          5 |         33 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/model/Game.js                                     | JavaScript |         35 |          0 |          3 |         38 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/model/Room.js                                     | JavaScript |         41 |          0 |          3 |         44 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/model/User.js                                     | JavaScript |         38 |          0 |          3 |         41 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/package-lock.json                                 | JSON       |      2,008 |          0 |          1 |      2,009 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/package.json                                      | JSON       |         35 |          0 |          1 |         36 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/utils/log.js                                      | JavaScript |         15 |          5 |          4 |         24 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/utils/random.js                                   | JavaScript |          4 |          0 |          1 |          5 |
+| /Users/heyulong/Documents/GitHub/PlayReversi/utils/validation.js                               | JavaScript |         20 |          3 |          6 |         29 |
+| Total                                                                                          |            |     22,052 |        437 |        689 |     23,178 |
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

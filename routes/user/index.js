@@ -3,12 +3,7 @@ const User = require("../../model/User");
 const jwt = require("jsonwebtoken");
 const verify = require("../verifyToken");
 
-/**
- * Register User
- * @endpoint: /register
- * @method: POST
- * @description:Register user and return user info
- */
+
 router.get("/:id", verify, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);

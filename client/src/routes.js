@@ -1,4 +1,3 @@
-// routes for frontend
 import * as React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import GamePlayPage from "./View/Game/GamePlayPage";
@@ -8,25 +7,12 @@ import GamePage from "./View/Game";
 import LoginPage from "./View/Login";
 import RegisterPage from "./View/Login/Register";
 import RoomPage from "./View/Room/RoomList";
+import CreateRoomPage from "./View/Room/createRoom";
 import { isLoggedIn } from "./utils/checkAuth";
 import { useCookies } from "react-cookie";
 
 // Context
 import { UserProvider } from "./context/UserContext";
-
-/**
- * PrivateRoute only allows user who signed in to access to route
- */
-// const PrivateRoute = ({ component: Component, ...rest }) => {
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) =>
-//         isLoggedIn() ? <Component {...props} /> : <Redirect to="/login" />
-//       }
-//     />
-//   );
-// };
 
 /**
  * PrivateRoute only allows user who signed in to access to route
@@ -80,7 +66,7 @@ export default class Routes extends React.Component {
             <GamePlayPage />
           </PrivateRoute>
           <PrivateRoute exact path="/waiting/:id">
-            <WaitingRoom />
+            <CreateRoomPage />
           </PrivateRoute>
           <AuthRoute exact path="/login" component={LoginPage} />
           <AuthRoute exact path="/register" component={RegisterPage} />

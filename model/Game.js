@@ -1,32 +1,47 @@
 const mongoose = require("mongoose");
 
 const gameSchema = new mongoose.Schema({
-  board:{
-      type: [String],
-      required: true,
+  gameId: {
+    type: String,
+  },
+  board: {
+    type: [String],
+  },
+  gameSides:{
+    Xplayer: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: 'User'
+    },
+    OPlayer: {
+        type:mongoose.Schema.Types.ObjectID,
+        ref: 'User'
+    }
   },
   currentPlayers: {
     type: [mongoose.Schema.Types.ObjectID],
     ref: "User",
-    required: true,
   },
-  lastMove:{
-      type: [String]
+  lastMove: {
+    type: [String],
   },
-  isStarted:{
-      type: Boolean,
-      default: false,
+  isStarted: {
+    type: Boolean,
+    default: false,
   },
-  isFinished:{
-      type: Boolean,
-      default: false
+  isFinished: {
+    type: Boolean,
+    default: false,
   },
-  winner:{
-      type: mongoose.Schema.Types.ObjectID,
-      ref: "User"
+  winner: {
+    type: mongoose.Schema.Types.ObjectID,
+    ref: "User",
   },
-  timeLast:{
+  timeLast: {
+    type: Date,
+  },
+  createDate:{
       type: Date,
+      default: Date.now()
   }
 });
 

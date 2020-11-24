@@ -37,7 +37,6 @@ router.post("/register", async (req, res) => {
   // save the user in the database, and respond
   try {
     const savedUser = await user.save();
-    console.log(savedUser);
     res.json({success: true, message: "Register Success", user: savedUser});
   } catch (err) {
     res.send({ success: false, message: err.message });
@@ -59,11 +58,9 @@ router.post("/register", async (req, res) => {
  */
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   //basic step of validation: check things like length
   const { error } = loginValidation(req.body);
   if (error) return res.status(200).send({ message: error.details[0].message });
-
   // if the email exist in the database
   const user = await User.findOne({ email: req.body.email });
   if (!user) {

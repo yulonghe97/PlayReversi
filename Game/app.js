@@ -119,7 +119,7 @@ function IntializeGame(width, letter) {
   ] = "X";
 
   // Return the Initialized Board
-  return {roomId: assignRandomRoomId(), board: board};
+  return board;
 
   // ---- Old code ----
 

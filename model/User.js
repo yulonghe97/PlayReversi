@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
   matches:{
     type: Number,
     default: 0,
+  },
+  gameRecords:{
+      type: [mongoose.Schema.Types.ObjectID],
+      ref: 'Game',
   }
 });
 

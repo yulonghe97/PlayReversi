@@ -54,6 +54,7 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => log("CONNECTED TO DATABASE", "success")
 );
+mongoose.set('useFindAndModify', false);
 
 // API Server Initialization
 server.listen("8000", () => {
