@@ -9,16 +9,58 @@ import LoginPage from "./View/Login";
 import RegisterPage from "./View/Login/Register";
 import RoomPage from "./View/Room/RoomList";
 import { isLoggedIn } from "./utils/checkAuth";
+import { useCookies } from "react-cookie";
+
+// Context
+import { UserProvider } from "./context/UserContext";
 
 /**
  * PrivateRoute only allows user who signed in to access to route
  */
-const PrivateRoute = ({ component: Component, ...rest }) => {
+// const PrivateRoute = ({ component: Component, ...rest }) => {
+//   return (
+//     <Route
+//       {...rest}
+//       render={(props) =>
+//         isLoggedIn() ? <Component {...props} /> : <Redirect to="/login" />
+//       }
+//     />
+//   );
+// };
+
+/**
+ * PrivateRoute only allows user who signed in to access to route
+ */
+const PrivateRoute = ({ children, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isLoggedIn() ? <Component {...props} /> : <Redirect to="/login" />
+      render={(props) => (isLoggedIn() ? children : <Redirect to="/login" />)}
+    />
+  );
+};
+
+/**
+ * Auth Route is used for registration
+ */
+
+const AuthRoute = ({ component: Component, ...rest }) => {
+  const [cookies] = useCookies(["_token"]);
+
+  return (
+    <Route
+      {...rest}
+      render={({ location, props }) =>
+        cookies._token ? (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: location },
+            }}
+          />
+        ) : (
+          <Component {...props} />
+        )
       }
     />
   );
@@ -29,12 +71,22 @@ export default class Routes extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <PrivateRoute exact path="/" component={RoomPage} />
-          <PrivateRoute exact path="/game/:id" component={GamePlayPage} />
-          <PrivateRoute exact path="/waiting/:id" component={WaitingRoom} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/register" component={RegisterPage} />
-          <PrivateRoute exact path="/room" component={RoomPage} />
+          <PrivateRoute exact path="/">
+            <UserProvider>
+              <RoomPage />
+            </UserProvider>
+          </PrivateRoute>
+          <PrivateRoute exact path="/game/:id">
+            <GamePlayPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/waiting/:id">
+            <WaitingRoom />
+          </PrivateRoute>
+          <AuthRoute exact path="/login" component={LoginPage} />
+          <AuthRoute exact path="/register" component={RegisterPage} />
+          <PrivateRoute exact path="/room">
+            <RoomPage />
+          </PrivateRoute>
         </Switch>
       </BrowserRouter>
     );

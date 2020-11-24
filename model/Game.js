@@ -25,6 +25,9 @@ const gameSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectID,
       ref: "User"
   },
+  timeLast:{
+      type: Date,
+  }
 });
 
 module.exports = mongoose.model("Game", gameSchema);

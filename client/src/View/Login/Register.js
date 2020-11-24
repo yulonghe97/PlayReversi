@@ -13,6 +13,8 @@ import Logo from "../../Asset/img/reversi-logo-01.svg";
 import EditableLabel from "react-inline-editing";
 import RandomAvatar from "./RandomAvatar";
 import UserLoginRegContext from "./store/context";
+import { useCookies } from 'react-cookie';
+import login from "../../controller/user/login";
 
 // Register Controller
 import register from "../../controller/user/register";
@@ -36,6 +38,8 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [cookies, setCookie] = useCookies(['_user']);
+
   const validateNickname = () => {
     if (
       nickname !== "Set Your Nickname" &&
@@ -57,21 +61,49 @@ export default function RegisterPage() {
     }
   }, [nickname]);
 
+  useEffect(() => {
+    const isSetAccountPassowrd = () => {
+      return (
+        Boolean(window.localStorage.getItem("_account")) &&
+        Boolean(window.localStorage.getItem("_password"))
+      );
+    };
+    if (!isSetAccountPassowrd()) window.location.href = "/login";
+  }, []);
+
+  /**
+   * Automatically Login after the registration
+   */
+  const onLogin = async (username, password) => {
+    const res = await login(username, password);
+    console.log(res);
+    if (res.data.token) {
+      window.localStorage.setItem("_user", JSON.stringify(res.data.user));
+      setCookie("_userId", res.data.user._id);
+      setCookie("_token", res.data.token);
+      window.location.href = "/";
+    } else {
+      setError(res.data.message);
+    }
+  };
+
   const onClick = async () => {
+    
+    const [account, password] = [window.localStorage.getItem("_account"), window.localStorage.getItem("_password")];
+
     setLoading(true);
     const res = await register(
-      window.localStorage.getItem("_account"),
-      window.localStorage.getItem("_password"),
+      account,
+      password,
       nickname,
       avatar
     );
-    if(res.data.success){
-      window.location.href = '/'
-    }else{
+    if (res.data.success) {
+      onLogin(account, password);
+    } else {
       setError(res.data.message);
       setLoading(false);
     }
-
   };
 
   return (

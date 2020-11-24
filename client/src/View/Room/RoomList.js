@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   Box,
   Button,
@@ -15,12 +15,11 @@ import RoomSearchBar from "../../Components/Room/RoomSearchBar";
 import RoomListTable from "../../Components/Room/RoomListTable";
 import UserProfileCard from "../../Components/UserProfile";
 import Hidden from "@material-ui/core/Hidden";
+import NavBar from "../../Components/NavBar/";
 
-import { useCookies } from "react-cookie";
+// Context 
+import { UserContext } from "../../context/UserContext";
 
-// Controllers
-import getUserInfoController from "../../controller/user/getInfo";
-import { get } from "http";
 
 const useStyle = makeStyles({
   button: {
@@ -32,21 +31,19 @@ const useStyle = makeStyles({
 export default function RoomList() {
   const classes = useStyle();
 
-  const [cookies, setCookie] = useCookies(['_userId']);
+  // Fetch the data from the user context
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
 
-    async function getUserInfo(){
-        const res = await getUserInfoController(cookies._userId);
-        console.log(res);
-    }
-    getUserInfo();
+    console.log(user);
 
   }, [])
 
   return (
     <>
       <Container>
+        <NavBar />
         <LogoHeader />
         <Box pt="30px">
           <RoomSearchBar />
@@ -60,7 +57,7 @@ export default function RoomList() {
             alignItems="start"
           >
             <Grid item xs={12} sm={4} md={3}>
-              <UserProfileCard />
+              <UserProfileCard user={user} />
             </Grid>
             <Grid item xs={12} sm={8} md={7}>
               <RoomListTable />

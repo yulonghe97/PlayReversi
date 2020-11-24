@@ -5,7 +5,7 @@ import Logo from "../../Asset/img/reversi-logo-01.svg";
 export default function LogoHeader() {
   return (
     <div>
-      <Box display="flex" justifyContent="center" mt="100px">
+      <Box display="flex" justifyContent="center" mt="30px">
         <img src={Logo} style={{ height: "150px" }}></img>
       </Box>
     </div>

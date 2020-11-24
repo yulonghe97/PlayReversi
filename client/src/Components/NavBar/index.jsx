@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import { Box } from "@material-ui/core";
+import { delete_cookie } from "../../utils/cookie";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,29 +18,28 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  button:{
+    paddingTop:'5px',
+    "&:hover":{
+      color: '#7C4DFF',
+      cursor: 'pointer',  
+    }
+  },
 }));
 
 export default function ButtonAppBar() {
   const classes = useStyles();
 
+  const onLogout = () => {
+    delete_cookie("_token");
+    window.location.href = "/login";
+  }
+
   return (
-    // <div className={classes.root}>
-    //   <AppBar position="static" color="transparent" style={{ margin: 0 }}>
-    //     <Toolbar>
-    //       <Typography variant="h6" className={classes.title}>
-    //         PlayReversi
-    //       </Typography>
-    //       <Button color="inherit">Hi, Yulong</Button>
-    //     </Toolbar>
-    //   </AppBar>
-    // </div>
     <>
-      <Box display="flex" justifyContent="space-between" padding="20px">
-        <Typography variant="h6" className={classes.title}>
-          <SportsEsportsIcon style={{marginRight:"10px"}} />PlayReversi.io
-        </Typography>
-        <Typography variant="h6" className={classes.title}>
-          Hi Yulong
+      <Box display="flex" justifyContent="flex-end" padding="20px">
+        <Typography variant="h6" className={classes.button}>
+          <span onClick={onLogout}>Logout</span>
         </Typography>
       </Box>
     </>

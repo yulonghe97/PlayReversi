@@ -65,6 +65,13 @@ export default function LoginPage() {
     loginRequest();
   };
 
+  /**
+   * Listener for Enter Pressing
+   */
+  const onEnterPressed = (e) => {
+    if(e.key === 'Enter') onClickStart();
+  }
+
   return (
     <Container>
       <Box display="flex" justifyContent="center" mt="100px">
@@ -96,6 +103,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyPress={(e) => onEnterPressed(e)}
                 />
               </Grid>
               {error && (

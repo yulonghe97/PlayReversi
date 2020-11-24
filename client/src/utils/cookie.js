@@ -5,6 +5,10 @@ const calcCookieExpireDate = () => {
     return new Date(currentDate + 60 * 1000 * 60 * 24);
 }
 
+function delete_cookie(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
 // Clear Cookies
 const clearCookies = () =>{
     var cookies = document.cookie.split(";");
@@ -26,4 +30,4 @@ const readCookie = (name) => {
     return null;
 }
 
-export { calcCookieExpireDate, readCookie, clearCookies };
+export { calcCookieExpireDate, readCookie, clearCookies, delete_cookie };

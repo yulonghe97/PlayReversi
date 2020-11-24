@@ -15,7 +15,8 @@ const useStyles = makeStyles({
     }
 })
 
-export default function UserProfileCard() {
+export default function UserProfileCard({ user }) {
+    
 
 
     const classes = useStyles()
@@ -25,19 +26,19 @@ export default function UserProfileCard() {
             <Paper elevation={2} className={classes.container}>
                 <Grid container justify="center" alignContent="center" alignItems="center"  spacing={2} direction="column" >
                     <Grid item xs>
-                        <Avatar src={AvatarPsedo} className={classes.avatar} />
+                        <Avatar src={user.avatar} className={classes.avatar} />
                     </Grid>
                     <Grid item xs>
-                        <Box><Typography variant="h5" color="primary">Yulong</Typography></Box>
+                        <Box><Typography variant="h5" color="primary">{user.name}</Typography></Box>
                     </Grid>
                     <Grid item xs>
-                        <Box><Typography variant="body2">Score: 3,206</Typography></Box>
+                        <Box><Typography variant="body2">Score: {user.score}</Typography></Box>
                     </Grid>
                     <Grid item xs>
-                        <Box><Typography variant="body2">Matches: 100</Typography></Box>
+                        <Box><Typography variant="body2">Matches: {user.matches}</Typography></Box>
                     </Grid>
                     <Grid item xs>
-                        <Box><Typography variant="body2">School: NYU</Typography></Box>
+                        <Box><Typography variant="body2">School: {user.school}</Typography></Box>
                     </Grid>
                     
                 </Grid>
