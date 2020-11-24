@@ -24,6 +24,16 @@ const postRoute = require("./routes/post");
 const roomRoute = require("./routes/rooms/index");
 const userRoute = require("./routes/user/index");
 
+
+//const { RedisClient } = require("redis");
+// Redis
+const redis = require("redis");
+const REDIS_PORT  = process.env.REDIS_PORT || 6379;
+const RedisClient = redis.createClient(REDIS_PORT);
+RedisClient.on("error", function(error) {
+  console.error(error);
+});
+
 dotenv.config();
 
 app.use(cors())
@@ -55,6 +65,7 @@ mongoose.connect(
   () => log("CONNECTED TO DATABASE", "success")
 );
 mongoose.set('useFindAndModify', false);
+
 
 // API Server Initialization
 server.listen("8000", () => {
