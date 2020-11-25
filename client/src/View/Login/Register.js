@@ -40,6 +40,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
 
   const [cookies, setCookie] = useCookies(['_user']);
+  const history = useHistory();
 
   const validateNickname = () => {
     if (
@@ -69,7 +70,7 @@ export default function RegisterPage() {
         Boolean(window.localStorage.getItem("_password"))
       );
     };
-    if (!isSetAccountPassowrd()) window.location.href = "/login";
+    if (!isSetAccountPassowrd()) history.push("/login");
   }, []);
 
   /**
@@ -82,7 +83,7 @@ export default function RegisterPage() {
       window.localStorage.setItem("_user", JSON.stringify(res.data.user));
       setCookie("_userId", res.data.user._id);
       setCookie("_token", res.data.token);
-      window.location.href = "/";
+      history.push('/');
     } else {
       setError(res.data.message);
     }

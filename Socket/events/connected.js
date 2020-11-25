@@ -1,10 +1,12 @@
 const Game = require("../../Game/app");
 const log = require("../../utils/log");
-const { leaveRoom } = require("../../controller/room/index");;
+const { leaveRoom } = require("../../controller/room/index");
+
 
 let rooms = {};
 
 const connectedEvent = (socket) => {
+
 
   require("./room/joinRoom")(socket);
   require("./room/leaveRoom")(socket);
