@@ -1,8 +1,6 @@
 import * as React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import GamePlayPage from "./View/Game/GamePlayPage";
-import JoinRoom from "./View/Game/JoinRoom";
-import GamePage from "./View/Game";
 import LoginPage from "./View/Login";
 import RegisterPage from "./View/Login/Register";
 import RoomPage from "./View/Room/RoomList";

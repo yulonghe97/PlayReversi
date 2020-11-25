@@ -5,6 +5,10 @@ const roomSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  roomHost:{
+    type: mongoose.Schema.Types.ObjectID,
+    ref: 'User'
+  },
   currentPlayers: {
     type: [{type: mongoose.Schema.Types.ObjectID, ref: 'User'}],
   },

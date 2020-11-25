@@ -17,7 +17,8 @@
     "nodemon": "^2.0.6",
     "readline-sync": "^1.4.10",
     "redis": "^3.0.2",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "util": "^0.12.3"
   },
   "devDependencies": {},
   "scripts": {

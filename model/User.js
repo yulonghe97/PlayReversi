@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema({
   gameRecords:{
       type: [mongoose.Schema.Types.ObjectID],
       ref: 'Game',
+  },
+  currentRoom:{
+      type: String,
   }
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Grid,
   Box,
@@ -9,6 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
+import { UserContext } from "../../context/UserContext";
 
 // Controller
 import createRoom from "../../controller/room/createRoom";
@@ -23,12 +24,13 @@ const useStyle = makeStyles({
 export default function RoomSearchBar() {
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext);
 
   const history = useHistory();
 
   const onCreateRoom = async () => {
     setLoading(true);
-    const res = await createRoom();
+    const res = await createRoom(user._id);
     setLoading(false);
     res.success ? setRoom(res.data.roomId) : console.error(res.message);
     onJoiningRoom(res.data.roomId);

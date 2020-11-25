@@ -16,6 +16,7 @@ import RoomListTable from "../../Components/Room/RoomListTable";
 import UserProfileCard from "../../Components/UserProfile";
 import Hidden from "@material-ui/core/Hidden";
 import NavBar from "../../Components/NavBar/";
+import { useHistory } from "react-router-dom";
 
 // Context 
 import { UserContext } from "../../context/UserContext";
@@ -33,12 +34,17 @@ export default function RoomList() {
 
   // Fetch the data from the user context
   const { user } = useContext(UserContext);
+  const history = useHistory();
 
+  /**
+   * Listen to user
+   */
   useEffect(() => {
 
-    console.log(user);
+    // Redirect User if joined a room
+    if(user.currentRoom) history.push(`/room/${user.currentRoom}`);
 
-  }, [])
+  }, [user])
 
   return (
     <>

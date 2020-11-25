@@ -12,6 +12,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { useCookies } from 'react-cookie';
 import Logo from "../../Asset/img/reversi-logo-01.svg";
+import { useHistory } from "react-router-dom";
 import "../../Asset/loading.css";
 
 
@@ -34,6 +35,7 @@ export default function LoginPage() {
   const classes = useStyle();
 
   const [cookies, setCookie] = useCookies(['_user']);
+  const history = useHistory();
 
   const isNewAccount = (message) => {
     return message === "Email Not Found";
@@ -42,8 +44,7 @@ export default function LoginPage() {
   const setupRegister = () => {
     window.localStorage.setItem("_account", username);
     window.localStorage.setItem("_password", password);
-    window.location.href = `/register?email=${username}`;
-
+    history.push(`/register?email=${username}`);
   };
 
   const onClickStart = () => {
@@ -54,8 +55,8 @@ export default function LoginPage() {
         window.localStorage.setItem("_user", JSON.stringify(res.data.user));
         setCookie("_userId", res.data.user._id);
         setCookie("_token", res.data.token);
-        window.location.href = "/"
-      } else {
+        history.push('/');
+      } else {  
         isNewAccount(res.data.message)
           ? setupRegister()
           : setError(res.data.message)

@@ -1,6 +1,6 @@
 const Game = require("../../Game/app");
 const log = require("../../utils/log");
-const { joinRoom, leaveRoom } = require("../../controller/room/index");;
+const { leaveRoom } = require("../../controller/room/index");;
 
 let rooms = {};
 
@@ -19,8 +19,11 @@ const connectedEvent = (socket) => {
   });
 
 
-  socket.on("disconnect", (data) => {
-    console.log(socket.id + " disconnect")
+  socket.on("disconnect", async (data) => {
+    // When user is in the room and lose connection
+    if(socket.user_room){
+      await leaveRoom(socket.user_id, socket.user_room);
+    }
   })
 };
 

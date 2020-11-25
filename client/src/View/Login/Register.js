@@ -14,6 +14,7 @@ import EditableLabel from "react-inline-editing";
 import RandomAvatar from "./RandomAvatar";
 import UserLoginRegContext from "./store/context";
 import { useCookies } from 'react-cookie';
+import { useHistory } from "react-router-dom";
 import login from "../../controller/user/login";
 
 // Register Controller

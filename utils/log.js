@@ -9,10 +9,10 @@ const chalk = require("chalk");
 function log(message, type) {
   switch (type) {
     case "success":
-      console.log(chalk.black.bgGreen(message));
+      console.log(chalk.green(message));
       break;
     case "error":
-      console.log(chalk.black.bgRed(message));
+      console.log(chalk.red(message));
       break;
     default:
       console.log(chalk.cyan(message));

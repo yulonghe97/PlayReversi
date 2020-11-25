@@ -4,16 +4,17 @@ const Room = require("../../model/Room");
 const rand = require("../../utils/random");
 const log = require("../../utils/log");
 
-router.get("/createRoom", verify, async (req, res) => {
+router.post("/createRoom", verify, async (req, res) => {
   const id = rand.generateRoomId();
 
   // Save New Room to database
   const newRoom = await new Room({
     roomId: id,
-    currentPlayers: req.body.user,
+    roomHost: req.body.userId,
+    currentPlayers: req.body.userId,
   }).save();
 
-  log(`New Room Created: ${newRoom.roomId}`, "success");
+  log(`[NEW ROOM]: ${newRoom.roomId}`, "success");
 
   res.status(200).json(newRoom);
 });
