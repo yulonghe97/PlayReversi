@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
+import "./animate.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AlignItemsList() {
+export default function RoomListTable() {
   const classes = useStyles();
 
   return (
@@ -43,7 +44,7 @@ export default function AlignItemsList() {
         <ListItemText
           primary={
             <>
-              <Typography variant="h5">Akadia vs. Francis</Typography>
+              <Typography className="focus-in-expand" variant="h5">Akadia vs. Francis</Typography>
             </>
           }
           secondary={

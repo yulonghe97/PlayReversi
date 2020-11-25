@@ -9,6 +9,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import { Box } from "@material-ui/core";
 import { delete_cookie } from "../../utils/cookie";
+import { userLogoutModel } from "../../model/user/";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
 
-  const onLogout = () => {
+  const onLogout = async () => {
+    // Logout user in server-side;
+    await userLogoutModel();
     delete_cookie("_token");
     window.location.href = "/login";
   }

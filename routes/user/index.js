@@ -7,9 +7,10 @@ const verify = require("../verifyToken");
 router.get("/:id", verify, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: "Unable To Find User" });
+    console.log(error);
+    // res.status(500).json({ message: "Unable To Find User" });
   }
 });
 

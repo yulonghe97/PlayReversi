@@ -4,7 +4,7 @@ const Room = require("../../model/Room");
 const rand = require("../../utils/random");
 const log = require("../../utils/log");
 
-router.post("/createRoom", async (req, res) => {
+router.get("/createRoom", verify, async (req, res) => {
   const id = rand.generateRoomId();
 
   // Save New Room to database

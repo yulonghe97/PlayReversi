@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Box, Button } from "@material-ui/core";
-import GameUserInfo from "../../Components/GameUserInfo/";
+import GameUserInfo from "../../Components/GameUserInfo";
 import { useParams } from "react-router-dom";
 import { socket } from "../../service/socket";
 // import { GameContext } from "../Game/store/context";

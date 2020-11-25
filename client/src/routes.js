@@ -1,13 +1,12 @@
 import * as React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import GamePlayPage from "./View/Game/GamePlayPage";
-import WaitingRoom from "./View/Game/WaitingRoom";
 import JoinRoom from "./View/Game/JoinRoom";
 import GamePage from "./View/Game";
 import LoginPage from "./View/Login";
 import RegisterPage from "./View/Login/Register";
 import RoomPage from "./View/Room/RoomList";
-import CreateRoomPage from "./View/Room/createRoom";
+import CreateRoomPage from "./View/Room/WaitingRoom";
 import { isLoggedIn } from "./utils/checkAuth";
 import { useCookies } from "react-cookie";
 
@@ -65,7 +64,7 @@ export default class Routes extends React.Component {
           <PrivateRoute exact path="/game/:id">
             <GamePlayPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/waiting/:id">
+          <PrivateRoute exact path="/room/:id">
             <CreateRoomPage />
           </PrivateRoute>
           <AuthRoute exact path="/login" component={LoginPage} />

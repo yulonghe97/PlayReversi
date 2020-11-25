@@ -44,7 +44,7 @@ export default function RoomItem() {
         <ListItemText
           primary={
             <>
-              <Typography variant="h5">Akadia vs. Francis</Typography>
+              <span  className="focus-in-expand">Akadias vs. Francis</span>
             </>
           }
           secondary={

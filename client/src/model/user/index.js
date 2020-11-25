@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, GET_USER_INFO, createHeader } from "../apiConfig";
+import { LOGIN, REGISTER, GET_USER_INFO, createHeader, LOGOUT } from "../apiConfig";
 import axios from "axios";
 
 function userLoginModel(email, password) {
@@ -6,6 +6,10 @@ function userLoginModel(email, password) {
     email: email,
     password: password,
   });
+}
+
+function userLogoutModel(){
+  return axios.get(LOGOUT, createHeader());
 }
 
 function userRegisterModel(email, password, nickname, avatar) {
@@ -21,4 +25,5 @@ function getUserInfoModel(id) {
   return axios.get(`${GET_USER_INFO}/${id}`, createHeader())
 }
 
-export { userLoginModel, userRegisterModel, getUserInfoModel }
+
+export { userLoginModel, userLogoutModel, userRegisterModel, getUserInfoModel }
