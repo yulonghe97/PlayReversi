@@ -1,13 +1,10 @@
 const Game = require("../../Game/app");
 const log = require("../../utils/log");
 const { leaveRoom } = require("../../controller/room/index");
-
-
-let rooms = {};
+const { checkSid } = require("../../controller/connect/index");
 
 const connectedEvent = (socket) => {
-
-
+  
   require("./room/joinRoom")(socket);
   require("./room/leaveRoom")(socket);
 
@@ -20,13 +17,20 @@ const connectedEvent = (socket) => {
     socket.emit("initializeGame", gameInfo);
   });
 
-
-  socket.on("disconnect", async (data) => {
-    // When user is in the room and lose connection
-    if(socket.user_room){
-      await leaveRoom(socket.user_id, socket.user_room);
+  socket.on("disconnect", async () => {
+    try {
+      // Check if it's the valid socket to leave the room
+      if (socket.user_id) {
+        const isValid = await checkSid(socket.user_id, socket.id);
+        if (socket.user_room && isValid) {
+          const room = await leaveRoom(socket.user_id, socket.user_room);
+          socket.to(socket.user_room).emit("leaveRoom", { data: room });
+        }
+      }
+    } catch (e) {
+      console.error(e);
     }
-  })
+  });
 };
 
 module.exports = connectedEvent;

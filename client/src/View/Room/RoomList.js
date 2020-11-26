@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import LogoHeader from "../../Components/LogoHeader/";
 import RoomSearchBar from "../../Components/Room/RoomSearchBar";
 import RoomListTable from "../../Components/Room/RoomListTable";
+import RoomAlert from "../../Components/Room/RoomAlert";
 import UserProfileCard from "../../Components/UserProfile";
 import Hidden from "@material-ui/core/Hidden";
 import NavBar from "../../Components/NavBar/";
@@ -32,23 +33,16 @@ const useStyle = makeStyles({
 export default function RoomList() {
   const classes = useStyle();
 
+  const [isInRoom, setIsInRoom] = useState(false);
   // Fetch the data from the user context
   const { user } = useContext(UserContext);
   const history = useHistory();
-
-  /**
-   * Listen to user
-   */
-  useEffect(() => {
-
-    // Redirect User if joined a room
-    if(user.currentRoom) history.push(`/room/${user.currentRoom}`);
-
-  }, [user])
+  
 
   return (
     <>
       <Container>
+        <RoomAlert />
         <NavBar />
         <LogoHeader />
         <Box pt="30px">

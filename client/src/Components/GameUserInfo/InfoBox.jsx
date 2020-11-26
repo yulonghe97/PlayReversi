@@ -23,19 +23,19 @@ export default function InfoBox(props) {
               justifyContent="center"
               alignItems="center"
             >
-              <Avatar src={avatarImg}>H</Avatar>
-              <div style={{ fontSize: "18px", paddingTop: "15px" }}>⚫</div>
+              <Avatar src={props.avatar}>H</Avatar>
+              {/* <div style={{ fontSize: "18px", paddingTop: "15px" }}>⚫</div> */}
             </Box>
           </Grid>
           <Grid xs={9}>
             <Box display="flex" flexDirection="column" marginLeft="10px">
               <Box pb="5px" style={{ fontSize: "16px", fontWeight: "600px" }}>
-                {props.username}
+                {props.name}
               </Box>
               <Box paddingBottom="10px">NYU</Box>
               <Divider />
-              <Box paddingTop="10px">Score: 1920</Box>
-              <Box paddingTop="5px">Win: 463</Box>
+              <Box paddingTop="10px">Score: {props.score}</Box>
+              <Box paddingTop="5px">Win: {props.matches}</Box>
             </Box>
           </Grid>
         </Grid>

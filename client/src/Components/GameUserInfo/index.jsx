@@ -6,9 +6,9 @@ import InfoBox from "./InfoBox";
 export default function GameUserInfo(props) {
   return (
    <>
-      <Box display="flex" flexDirection="column" paddingTop="100px">
+      <Box display="flex" flexDirection="column">
           {props.users.map((e) => {
-            return <InfoBox username={e.name} />
+            return <InfoBox {...e} />
           })}
       </Box>
    </>
