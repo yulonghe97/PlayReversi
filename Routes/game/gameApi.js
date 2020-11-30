@@ -1,18 +1,19 @@
 const router = require("express").Router();
-const game = require("../../Game/app");
-const rand = require("../../utils/random");
+const game = require("../../controller/game");
 
 // Game Model
 const Game = require("../../model/Game");
 
-router.get("/initializeGame", async (req, res) => {
-  // Initialize Board with 8x8
-  const board = game.IntializeGame(8, "X");
-  // Generate Random Game Id
-  const gameId = "G-" + rand.generateRoomId();
+/**
+ * Initialize Game
+ * POST
+ * @body userId 
+ */
+router.post("/initializeGame", async (req, res) => {
+  const gameInfo = await game.initializeGame(req.body.userId);
   res.json({
-    message: "Success",
-    gameInfo: { gameId: gameId, board: board },
+    message: gameInfo.message,
+    data: gameInfo.data,
   });
 });
 

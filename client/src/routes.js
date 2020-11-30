@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 
 // Context
 import { UserProvider } from "./context/UserContext";
+import { GameProvider } from "./context/GameContext";
 
 /**
  * PrivateRoute only allows user who signed in to access to route
@@ -60,10 +61,18 @@ export default class Routes extends React.Component {
             </UserProvider>
           </PrivateRoute>
           <PrivateRoute exact path="/game/:id">
-            <GamePlayPage />
+            <UserProvider>
+              <GameProvider>
+                <GamePlayPage />
+              </GameProvider>
+            </UserProvider>
           </PrivateRoute>
           <PrivateRoute exact path="/room/:id">
-            <CreateRoomPage />
+            <UserProvider>
+              <GameProvider>
+                <CreateRoomPage />
+              </GameProvider>
+            </UserProvider>
           </PrivateRoute>
           <AuthRoute exact path="/login" component={LoginPage} />
           <AuthRoute exact path="/register" component={RegisterPage} />

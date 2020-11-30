@@ -53,8 +53,8 @@ export default function LoginPage() {
       const res = await login(username, password);
       if (res.data.token) {
         window.localStorage.setItem("_user", JSON.stringify(res.data.user));
-        setCookie("_userId", res.data.user._id);
-        setCookie("_token", res.data.token);
+        setCookie("_userId", res.data.user._id, { expires: new Date(Date.now() + 86400 * 1000)});
+        setCookie("_token", res.data.token, { expires: new Date(Date.now() + 86400 * 1000 )});
         history.push('/');
       } else {  
         isNewAccount(res.data.message)

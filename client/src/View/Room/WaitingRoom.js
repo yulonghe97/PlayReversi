@@ -5,6 +5,11 @@ import { useParams, useHistory } from "react-router-dom";
 import { socket } from "../../service/socket";
 import { makeStyles } from "@material-ui/core/styles";
 import Loading from "../../Components/Loading";
+import LogoHeader from "../../Components/LogoHeader";
+import Game from "../Game";
+
+// Context
+import { GameContext } from "../../context/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -18,27 +23,16 @@ export default function WaitingRoom() {
   const history = useHistory();
   const classes = useStyles();
 
-  const [room, setRoom] = useState("");
   const [valid, setValid] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [players, setPlayers] = useState([]);
   const [disabled, setDisabled] = useState(false);
+  const [gameStart, setGameStart] = useState(false);
+
+  const { room, setRoom, players, setPlayers } = useContext(GameContext);
 
   // get user info
   const currentUser = JSON.parse(window.localStorage.getItem("_user"));
   // Join the waiting room
-
-  const updateRoom = (res) => {
-    if (res.data) {
-      setRoom(res.data);
-      setPlayers(res.data.currentPlayers);
-      setLoading(false);
-    } else {
-      setValid(false);
-      alert('Invalid Room')
-      history.replace('/');
-    }
-  };
 
   useEffect(() => {
     socket.on("joinRoom", (res) => updateRoom(res));
@@ -46,6 +40,9 @@ export default function WaitingRoom() {
     socket.on("sessionExpired", () => {
       setDisabled(true);
     });
+    socket.on("onInitializing", () => {
+      setGameStart(true);
+    })
     setLoading(true);
     socket.emit("joinRoom", {
       roomId: id,
@@ -54,59 +51,76 @@ export default function WaitingRoom() {
     });
   }, []);
 
+  const updateRoom = (res) => {
+    if (res.data) {
+      setRoom(res.data);
+      setPlayers(res.data.currentPlayers);
+      setLoading(false);
+    } else {
+      setValid(false);
+      alert("Invalid Room");
+      history.replace("/");
+    }
+  };
+
+
   const onLeaveRoom = () => {
     socket.emit("leaveRoom", { roomId: id, userId: currentUser._id });
     history.replace("/");
   };
 
-  const inValidMessage =  
-    <><p>Invalid Room</p></>;
+  const onStartGame = () => {
+    setGameStart(true);
+  }
 
-  const validWaitingRoom = 
-    <>
-      <Box display="flex" justifyContent="center" mt="30px">
-        <h1>Room # {id}</h1>
-      </Box>
-      {loading ? (
-        <Box display="flex" justifyContent="center" mt="20px">
-          <Loading size="lg" />
-        </Box>
-      ) : (
-        <>
-          <Box display="flex" justifyContent="center" mt="40px">
-            <GameUserInfo users={players} />
-          </Box>
-          <Box display="flex" justifyContent="center" mt="40px">
-            {/* {room.length !== 2 ? (
-          <Button variant="contained" color="primary" disabled>
-            Start
-          </Button>
-        ) : ( 
-          <Button variant="contained" color="primary">
-            Start
-          </Button>
-        )} */}
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{ marginLeft: "20px" }}
-              onClick={onLeaveRoom}
-            >
-              Leave
-            </Button>
-          </Box>
-        </>
-      )}
-    </>
-  ;
 
   return (
     <>
       <Backdrop className={classes.backdrop} open={disabled}>
         <h2>Oops :( seems like you have another connection</h2>
       </Backdrop>
-      {validWaitingRoom}
-      
+      {gameStart ? (
+        <Game />
+      ) : (
+        <>
+          <Box mt="10px">
+            <LogoHeader />
+          </Box>
+          <Box display="flex" justifyContent="center" mt="10px">
+            <h1>Room # {id}</h1>
+          </Box>
+          {loading ? (
+            <Box display="flex" justifyContent="center" mt="20px">
+              <Loading />
+            </Box>
+          ) : (
+            <>
+              <Box display="flex" justifyContent="center" mt="40px">
+                <GameUserInfo users={players} />
+              </Box>
+              <Box display="flex" justifyContent="center" mt="40px">
+                {players.length !== 2 ? (
+                  <Button variant="contained" color="primary" disabled>
+                    Start
+                  </Button>
+                ) : (
+                  <Button variant="contained" color="primary" onClick={onStartGame}>
+                    Start
+                  </Button>
+                )}
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{ marginLeft: "20px" }}
+                  onClick={onLeaveRoom}
+                >
+                  Leave
+                </Button>
+              </Box>
+            </>
+          )}
+        </>
+      )}
     </>
   );
 }

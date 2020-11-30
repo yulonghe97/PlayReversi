@@ -38,7 +38,6 @@ export default function RoomSearchBar() {
 
   const onJoiningRoom = async (roomId) => {
     if (typeof roomId === "string") {
-      console.log(roomId);
       setLoading(true);
       setTimeout(() => history.push(`/room/${roomId}`), 2000);
     }
@@ -85,7 +84,7 @@ export default function RoomSearchBar() {
               }}
               {...loadingProp()}
               value={room}
-              onChange={(e) => setRoom(e.target.value)}
+              onChange={(e) => setRoom((e.target.value).toUpperCase())}
             />
           </Box>
         </Grid>

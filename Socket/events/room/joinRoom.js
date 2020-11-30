@@ -20,7 +20,7 @@ module.exports = function (socket) {
       }
 
       // Find User By Id
-      const user = await getUserInfo(userId);
+      // const user = await getUserInfo(userId);
 
       // Join Room
       socket.join(currentRoomId);

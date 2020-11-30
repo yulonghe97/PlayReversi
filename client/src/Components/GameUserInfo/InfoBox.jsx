@@ -35,7 +35,7 @@ export default function InfoBox(props) {
               <Box paddingBottom="10px">NYU</Box>
               <Divider />
               <Box paddingTop="10px">Score: {props.score}</Box>
-              <Box paddingTop="5px">Win: {props.matches}</Box>
+              <Box paddingTop="5px">Matches: {props.matches}</Box>
             </Box>
           </Grid>
         </Grid>

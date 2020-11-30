@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { GameContext } from "../../../View/Game/store/context";
+import { GameContext } from "../../../context/GameContext";
 
 export default function Square(props) {
   const [value, setValue] = useState(null);
