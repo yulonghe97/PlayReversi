@@ -6,6 +6,7 @@ const connectedEvent = (socket) => {
   require("./game/joinGame")(socket);
   require("./game/initializeGame")(socket);
   require("./game/chessDown")(socket);
+  require("./game/availableMoves")(socket);
 
 };
 

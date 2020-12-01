@@ -21,11 +21,6 @@ export default function InitializeGame() {
   const setPlayerSide = () => {
     if (game) {
       if (game.playerX && game.playerO) {
-
-        
-        // setRoom(room.currentPlayers.map((e) => {if(e._id === user._id) {
-        //   {...e, side: }
-        // }))
         setSide(game.playerX === user._id ? "X" : "O");
       }
     }
@@ -48,6 +43,7 @@ export default function InitializeGame() {
 
     socket.on("initializeGame", (res) => {
       if (res.data) {
+        console.log(res.data);
         socket.emit("joinGame", { gameId: res.data._id });
       }
     });

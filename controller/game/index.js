@@ -3,6 +3,7 @@ const rand = require("../../utils/random");
 const gameModel = require("../../model/Game");
 const roomModel = require("../../model/Room");
 const log = require("../../utils/log");
+const { func } = require("joi");
 
 /**
  * Assign the player who joined the game
@@ -40,7 +41,7 @@ function assignHostLetter(playerId) {
  * @return  {Object}  Saved Game Info
  */
 async function initializeGame(currentPlayerId, roomId) {
-  const board = game.intializeGame(8);
+  const board = game.initializeGame(8);
   const gameId = "G-" + rand.generateRoomId();
   // Save Game into Database
   try {
@@ -49,7 +50,6 @@ async function initializeGame(currentPlayerId, roomId) {
       board: board,
       ...assignHostLetter(currentPlayerId),
     });
-    console.log(newGame);
     const savedGame = await newGame.save();
     await roomModel.findByIdAndUpdate(roomId, { gameId: savedGame._id });
     return { message: "Game Initialized", data: savedGame };
@@ -70,11 +70,9 @@ async function addPlayerToGame(gameId, currentPlayerId) {
       $push: { currentPlayers: currentPlayerId },
       ...assignPlayerLetter(game, currentPlayerId),
     };
-    console.log(JSON.stringify(update));
     const newGame = await gameModel.findByIdAndUpdate(gameId, update, {
       new: true,
     });
-    console.log(newGame);
     return { message: "Player Added to Game", data: newGame };
   } catch (e) {
     return { message: "Failed to add player", error: e.message };
@@ -85,12 +83,47 @@ function isPlayerInGame(game, currentPlayerId) {
   return Boolean(game.currentPlayers.includes(currentPlayerId));
 }
 
-function makeMove(){
-  
+function takeTurn(currentTurn) {
+  return currentTurn === "X" ? "O" : "X";
 }
 
+/**
+ * Make move, calculate and save the board to database
+ * @param {String} board
+ * @param {String} letter
+ * @param {String} move
+ * @param {String} gameId
+ *
+ * @return Saved Game Object
+ */
+async function makeMove(board, letter, move, gameId) {
+  try {
+    const newBoard = game.makeMove(board, letter, move);
+    if (newBoard.board) {
+      const savedGame = await gameModel
+        .findByIdAndUpdate(
+          gameId,
+          { $set: { board: newBoard.board, turn: takeTurn(letter) } },
+          { new: true }
+        )
+        .lean()
+        .exec();
+      return savedGame;
+    } else {
+      throw new Error(newBoard.message);
+    }
+  } catch (e) {
+    return { message: e.message };
+  }
+}
+
+function checkAvailableMoves(board, letter) {
+  return game.checkAvailableMoves(board, letter);
+}
 
 module.exports = {
   initializeGame: initializeGame,
   addPlayerToGame: addPlayerToGame,
+  makeMove: makeMove,
+  checkAvailableMoves: checkAvailableMoves,
 };

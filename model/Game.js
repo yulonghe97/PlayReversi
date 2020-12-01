@@ -15,6 +15,10 @@ const gameSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectID,
     ref: 'User',
   },
+  turn:{
+    type: String,
+    default:'X',
+  },
   currentPlayers: {
     type: [mongoose.Schema.Types.ObjectID],
     ref: "User",

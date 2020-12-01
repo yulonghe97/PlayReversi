@@ -1,3 +1,4 @@
+const { func } = require("joi");
 const rev = require("./reversi");
 
 function initializeGame(width) {
@@ -20,35 +21,85 @@ function initializeGame(width) {
   return board;
 }
 
-function makeMove(board, letter, move) {
-  // Copy the board
-  let newBoard = board.slice();
+/**
+ * Dynamically created the 64 Algrebraic Array
+ */
 
-  // Get total available moves from the board
-  const availableMoves = rev.getValidMoves(newBoard, letter);
-  console.log(availableMoves);
-
-  // If the notation is invalid, then return
-  if (!rev.isValidMoveAlgebraicNotation(newBoard, letter, move)) {
-    return { message: "Invalid Notation" };
+const row = [];
+for (let i = 1; i <= 8; i++) {
+  const col = [];
+  for (let j = 1; j <= 8; j++) {
+    col.push(String.fromCharCode(64 + i) + j);
   }
-
-  // If there is no available move, return
-  if (availableMoves.length === 0) {
-    return { message: "No Avaliable Move" };
-  }
-
-  // Place the letter to the new board
-  newBoard = rev.placeLetters(newBoard, letter, move);
-  // Get the cells that are able to flip and then flip the cells
-  const flippedCells = rev.getCellsToFlip(
-    newBoard,
-    rev.algebraicToRowCol(move).row,
-    rev.algebraicToRowCol(move).col
-  );
-  newBoard = rev.flipCells(newBoard, flippedCells);
-  rev.boardToString(newBoard);
-  return { lastMove: move, oldBoard: board, board: newBoard };
+  row.push(col);
 }
 
-module.exports = { initializeGame: initializeGame, makeMove: makeMove };
+function rowColtoAlgebraic(rowCol) {
+  return row[rowCol[1]][rowCol[0]];
+}
+
+/**
+ * Check Avaiable Moves Algrebraically
+ * @param {String} board
+ * @param {String} letter
+ */
+function checkAvailableMoves(board, letter) {
+  const validMoves = rev.getValidMoves(board, letter);
+  if (validMoves.length > 0) {
+    const validMovesAlgrebraic = validMoves.map((e) => rowColtoAlgebraic(e));
+    return validMovesAlgrebraic;
+  } else {
+    return [];
+  }
+}
+
+/**
+ * Player make move
+ * @param {String} board
+ * @param {String} letter
+ * @param {String} move
+ */
+function makeMove(board, letter, move) {
+  try {
+    // Copy the board
+    let newBoard = board.slice();
+
+    // Get total available moves from the board
+    const availableMoves = rev.getValidMoves(newBoard, letter);
+
+    // If the notation is invalid, then return
+    if (!rev.isValidMoveAlgebraicNotation(newBoard, letter, move)) {
+      throw new Error("Invalid Move");
+    }
+
+    // TODO: Take the final turn here
+    // If there is no available move, return
+    if (availableMoves.length === 0) {
+      throw new Error("No Available Moves");
+    }
+
+    // Place the letter to the new board
+    newBoard = rev.placeLetters(newBoard, letter, move);
+    // Get the cells that are able to flip and then flip the cells
+    const flippedCells = rev.getCellsToFlip(
+      newBoard,
+      rev.algebraicToRowCol(move).row,
+      rev.algebraicToRowCol(move).col
+    );
+    newBoard = rev.flipCells(newBoard, flippedCells);
+    return {
+      lastMove: move,
+      oldBoard: board,
+      board: newBoard,
+      availableMoves: availableMoves,
+    };
+  } catch (e) {
+    return { message: e.message };
+  }
+}
+
+module.exports = {
+  initializeGame: initializeGame,
+  makeMove: makeMove,
+  checkAvailableMoves: checkAvailableMoves,
+};

@@ -35,7 +35,6 @@ async function joinRoom(userId, roomId) {
       new: true,
     });
     // If room exist, and user never joined before, then join the room
-    console.log(currentRoom);
 
     // Update User
     const res = await UserModel.findByIdAndUpdate(
