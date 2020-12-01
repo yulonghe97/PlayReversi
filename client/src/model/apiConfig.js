@@ -1,6 +1,6 @@
 import { readCookie } from "../utils/cookie";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "http://206.189.90.113:8000";
 const createAPI = (endpoint) => `${BASE_URL}${endpoint}`;
 
 // User
