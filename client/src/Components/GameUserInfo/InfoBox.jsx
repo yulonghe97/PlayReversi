@@ -1,9 +1,13 @@
 import React from "react";
-import { Grid, Box, Avatar, Typography, Divider } from "@material-ui/core";
-import avatarImg from "../../Asset/img/avatar.jpg";
+import { Grid, Box, Avatar, Divider } from "@material-ui/core";
+
+
+
 
 
 export default function InfoBox(props) {
+
+
     return (
         <Box
         padding="20px"
@@ -24,7 +28,11 @@ export default function InfoBox(props) {
               alignItems="center"
             >
               <Avatar src={props.avatar}>H</Avatar>
-              {/* <div style={{ fontSize: "18px", paddingTop: "15px" }}>⚫</div> */}
+              {props.side && (
+                <div style={{ fontSize: "18px", paddingTop: "15px" }}>
+                {props.side === 'X' ?  <span>⚫</span> : <span>⚪</span>}
+                </div>
+              )}
             </Box>
           </Grid>
           <Grid xs={9}>

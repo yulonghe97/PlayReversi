@@ -4,16 +4,16 @@ import { GameContext } from "../../../context/GameContext";
 export default function Square(props) {
   const [value, setValue] = useState(null);
 
-  const { setLastMove } = useContext(GameContext);
+  const { setLastMove, side } = useContext(GameContext);
 
   useEffect(() => {
-    if (props.letter !== ' ') {
+    if (props.letter !== " ") {
       setValue(props.letter === "X" ? "⚫" : "⚪");
     }
   });
 
   const onClick = () => {
-    setValue("⚫");
+    setValue(side === "X" ? "⚫" : "⚪");
     console.log(`ID: ${props.value}`);
     setLastMove(props.value);
   };

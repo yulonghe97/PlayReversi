@@ -10,6 +10,7 @@ import Game from "../Game";
 
 // Context
 import { GameContext } from "../../context/GameContext";
+import { UserContext } from "../../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -27,8 +28,10 @@ export default function WaitingRoom() {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [gameStart, setGameStart] = useState(false);
+  const [isHost, setIsHost] = useState(false);
 
   const { room, setRoom, players, setPlayers } = useContext(GameContext);
+  const { user } = useContext(UserContext);
 
   // get user info
   const currentUser = JSON.parse(window.localStorage.getItem("_user"));
@@ -42,7 +45,7 @@ export default function WaitingRoom() {
     });
     socket.on("onInitializing", () => {
       setGameStart(true);
-    })
+    });
     setLoading(true);
     socket.emit("joinRoom", {
       roomId: id,
@@ -63,6 +66,9 @@ export default function WaitingRoom() {
     }
   };
 
+  useEffect(() => {
+    if (user._id === room.roomHost) setIsHost(true); // Only Host can start the game
+  }, [room]);
 
   const onLeaveRoom = () => {
     socket.emit("leaveRoom", { roomId: id, userId: currentUser._id });
@@ -71,8 +77,7 @@ export default function WaitingRoom() {
 
   const onStartGame = () => {
     setGameStart(true);
-  }
-
+  };
 
   return (
     <>
@@ -99,12 +104,16 @@ export default function WaitingRoom() {
                 <GameUserInfo users={players} />
               </Box>
               <Box display="flex" justifyContent="center" mt="40px">
-                {players.length !== 2 ? (
-                  <Button variant="contained" color="primary" disabled>
+                {players.length === 2 && isHost ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={onStartGame}
+                  >
                     Start
                   </Button>
                 ) : (
-                  <Button variant="contained" color="primary" onClick={onStartGame}>
+                  <Button variant="contained" color="primary" disabled>
                     Start
                   </Button>
                 )}

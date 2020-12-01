@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import JoinRoom from "./JoinRoom";
 import GamePlayPage from "./GamePlayPage";
 import { GameContext } from "../../context/GameContext";
 import InitializeGame from "./InitializeGame";
@@ -9,9 +8,5 @@ export default function GamePage() {
     GameContext
   );
 
-  return (
-    <>
-      <InitializeGame />
-    </>
-  );
+  return <>{initialized ? <GamePlayPage /> : <InitializeGame />}</>;
 }

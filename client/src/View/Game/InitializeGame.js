@@ -11,16 +11,31 @@ import { UserContext } from "../../context/UserContext";
 import GamePlayPage from "./GamePlayPage";
 
 export default function InitializeGame() {
-  const { room, initialized, setInitialized, game, setGame } = useContext(
+  const { room, setInitialized, game, setGame, setSide } = useContext(
     GameContext
   );
   const { user } = useContext(UserContext);
 
   const [status, setStatus] = useState("");
 
+  const setPlayerSide = () => {
+    if (game) {
+      if (game.playerX && game.playerO) {
+
+        
+        // setRoom(room.currentPlayers.map((e) => {if(e._id === user._id) {
+        //   {...e, side: }
+        // }))
+        setSide(game.playerX === user._id ? "X" : "O");
+      }
+    }
+  };
+
+  // Set player side when updated
+  useEffect(() => setPlayerSide(), [game]);
+
   useEffect(() => {
     setStatus("Initializing Game");
-
     socket.on("joinGame", (res) => {
       if (res.data.currentPlayers.length === 2) {
         setStatus("Both Player Joined");
@@ -29,7 +44,6 @@ export default function InitializeGame() {
       } else {
         setStatus("Waiting for another player");
       }
-      console.log(res.data);
     });
 
     socket.on("initializeGame", (res) => {
@@ -38,7 +52,6 @@ export default function InitializeGame() {
       }
     });
 
-    // Initialize Game
     // Only allow the game initialized by the host
     if (user._id === room.roomHost) {
       socket.emit("initializeGame", {
@@ -51,21 +64,17 @@ export default function InitializeGame() {
 
   return (
     <>
-      {initialized ? (
-        <div><GamePlayPage /></div>
-      ) : (
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignContent="center"
-          alignItems="center"
-          height="100vh"
-        >
-          <Loading />
-          <h4 style={{ color: "#4B4E4F" }}>{status}</h4>
-        </Box>
-      )}
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Loading />
+        <h4 style={{ color: "#4B4E4F" }}>{status}</h4>
+      </Box>
     </>
   );
 }

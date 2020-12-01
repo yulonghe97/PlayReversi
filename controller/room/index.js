@@ -85,7 +85,6 @@ async function leaveRoom(userId, roomId) {
     // Update User Status
     log(`[USER LEFT]: ${userId} Leaved Room ${roomId}`, "success");
     // if(!currentRoom) return null;
-    console.log(currentRoom);
 
     return currentRoom;
   } catch (e) {

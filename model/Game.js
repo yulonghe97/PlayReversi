@@ -7,15 +7,13 @@ const gameSchema = new mongoose.Schema({
   board: {
     type: [String],
   },
-  gameSides:{
-    Xplayer: {
-        type: mongoose.Schema.Types.ObjectID,
-        ref: 'User'
-    },
-    OPlayer: {
-        type:mongoose.Schema.Types.ObjectID,
-        ref: 'User'
-    }
+  playerX: {
+    type: mongoose.Schema.Types.ObjectID,
+    ref: 'User',
+  },
+  playerO: {
+    type:mongoose.Schema.Types.ObjectID,
+    ref: 'User',
   },
   currentPlayers: {
     type: [mongoose.Schema.Types.ObjectID],
