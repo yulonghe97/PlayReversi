@@ -23,6 +23,33 @@ async function findRoom(roomCode) {
 }
 
 
+// return a list of rooms that are active
+async function findActiveRoom() {
+  try {
+    const room = await RoomModel.find({ isActive: true })
+      .populate("currentPlayers")
+      .exec();
+    return { data: room };
+  } catch (e) {
+    return { message: "Fail to find active rooms", error: e.message };
+  }
+}
+
+//check if the room is full
+async function isFull(roomCode) {
+  try {
+    const room = await RoomModel.findOne({ roomId: roomCode })
+    if (room.currentPlayers.length === 2) {
+      return true;
+    } 
+    else {
+      return false;
+    }
+  } catch (e) {
+    return { message: "Connot decide it is full or not", error: e.message };
+  }
+}
+
 
 async function joinRoom(userId, roomId) {
   try {
