@@ -99,3 +99,5 @@ async function leaveRoom(userId, roomId) {
 exports.joinRoom = joinRoom;
 exports.leaveRoom = leaveRoom;
 exports.findRoom = findRoom;
+exports.isFull = isFull;
+exports.findActiveRoom = findActiveRoom;

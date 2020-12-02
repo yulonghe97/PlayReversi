@@ -128,12 +128,19 @@ async function makeMove(board, letter, move, gameId) {
   }
 }
 
+//return score from 5 to 10
+async function computeScore(scoreX,scoreO){
+  var all_score = scoreX+scoreO;
+  var larger = scoreX>scoreO? scoreX: scoreO;
+  return Math.round(larger/all_score);
+}
+
 async function gameEnd(gameId, roomId) {
-  const scoreEarn = 99;
   try {
     const res = await gameModel.findById(gameId).lean().exec();
     const winner = res.scoreX > res.scoreO ? "X" : "O";
     const winnerUserId = res[`player${winner}`];
+    const scoreEarn = 99;
     await gameModel.findByIdAndUpdate(gameId, {
       $set: {
         winner: winnerUserId,

@@ -68,6 +68,6 @@ mongoose.set('useFindAndModify', false);
 
 
 // API Server Initialization
-server.listen("8000", () => {
-  log("Server Listened on 8000", "success");
+server.listen("3000", () => {
+  log("Server Listened on 3000", "success");
 });
