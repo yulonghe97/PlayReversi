@@ -1,37 +1,110 @@
-const game = require("./app");
-const rand = require("../utils/random");
-const Game = require("../model/Game");
-const log = require("../utils/log");
+const { func } = require("joi");
+const rev = require("./reversi");
+
+function initializeGame(width) {
+  const CenterPositionIndex = width / 2 - 1;
+  const board = rev.generateBoard(width, width, " ");
+
+  // Place four pieces in the center
+  board[rev.rowColToIndex(board, CenterPositionIndex, CenterPositionIndex)] =
+    "O";
+  board[
+    rev.rowColToIndex(board, CenterPositionIndex + 1, CenterPositionIndex + 1)
+  ] = "O";
+  board[
+    rev.rowColToIndex(board, CenterPositionIndex, CenterPositionIndex + 1)
+  ] = "X";
+  board[
+    rev.rowColToIndex(board, CenterPositionIndex + 1, CenterPositionIndex)
+  ] = "X";
+
+  return board;
+}
 
 /**
- * Assign Letter And Return
- *
+ * Dynamically created the 64 Algrebraic Array
  */
-function assignLetter(playerId) {
-  const letter = Math.random() < 0.5 ? "X" : "O";
-  return letter === "X" ? { Xplayer: playerId } : { Oplayer: playerId };
-}
-/**
- * Initialize Game
- * @param   {String}  currentPlayerId  [currentPlayerId description]
- * @return  {Object}  Saved Game Info
- */
-async function initializeGame(currentPlayerId) {
-  const board = game.IntializeGame(8, "X");
-  const gameId = "G-" + rand.generateRoomId();
-  const newGame = new Game({
-    gameId: gameId,
-    board: board,
-    gameSides: assignLetter(currentPlayerId),
-  });
-  // Save Game into Database
-  try{
-    const savedGame = await newGame.save();
-    return savedGame;
-  }catch(e){
-    log(e.message, "error");
+
+const row = [];
+for (let i = 1; i <= 8; i++) {
+  const col = [];
+  for (let j = 1; j <= 8; j++) {
+    col.push(String.fromCharCode(64 + i) + j);
   }
-  return savedGame;
+  row.push(col);
 }
 
-module.exports = { initializeGame: initializeGame };
+function rowColtoAlgebraic(rowCol) {
+  return row[rowCol[1]][rowCol[0]];
+}
+
+/**
+ * Check Avaiable Moves Algrebraically
+ * @param {String} board
+ * @param {String} letter
+ */
+function checkAvailableMoves(board, letter) {
+  const validMoves = rev.getValidMoves(board, letter);
+  if (validMoves.length > 0) {
+    const validMovesAlgrebraic = validMoves.map((e) => rowColtoAlgebraic(e));
+    return validMovesAlgrebraic;
+  } else {
+    return [];
+  }
+}
+
+/**
+ * Player make move
+ * @param {String} board
+ * @param {String} letter
+ * @param {String} move
+ */
+function makeMove(board, letter, move) {
+  try {
+    // Copy the board
+    let newBoard = board.slice();
+
+    // Get total available moves from the board
+    const availableMoves = rev.getValidMoves(newBoard, letter);
+
+    // If the notation is invalid, then return
+    if (!rev.isValidMoveAlgebraicNotation(newBoard, letter, move)) {
+      throw new Error("Invalid Move");
+    }
+
+    // TODO: Take the final turn here
+    // If there is no available move, return
+    if (availableMoves.length === 0) {
+      throw new Error("No Available Moves");
+    }
+
+    // Place the letter to the new board
+    newBoard = rev.placeLetters(newBoard, letter, move);
+    // Get the cells that are able to flip and then flip the cells
+    const flippedCells = rev.getCellsToFlip(
+      newBoard,
+      rev.algebraicToRowCol(move).row,
+      rev.algebraicToRowCol(move).col
+    );
+    newBoard = rev.flipCells(newBoard, flippedCells);
+
+    // Calculate Score
+    const currentScore = rev.getLetterCounts(newBoard);
+
+    return {
+      lastMove: move,
+      oldBoard: board,
+      board: newBoard,
+      score: currentScore,
+      availableMoves: availableMoves,
+    };
+  } catch (e) {
+    return { message: e.message };
+  }
+}
+
+module.exports = {
+  initializeGame: initializeGame,
+  makeMove: makeMove,
+  checkAvailableMoves: checkAvailableMoves,
+};

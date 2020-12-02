@@ -5,7 +5,6 @@ const log = require("../utils/log");
 function registerUser(rooms, newUser) {
   const roomId = newUser.room;
 
-  console.log(newUser);
   // Check Rooms
   if (rooms.hasOwnProperty(newUser.room)) {
     // Check Users

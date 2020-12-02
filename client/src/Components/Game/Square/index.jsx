@@ -1,26 +1,39 @@
 import React, { useState, useContext, useEffect } from "react";
-import { GameContext } from "../../../View/Game/store/context";
+import { GameContext } from "../../../context/GameContext";
 
 export default function Square(props) {
   const [value, setValue] = useState(null);
+  const [instruction, setInstruction] = useState(false);
 
-  const { setLastMove } = useContext(GameContext);
+  const { setLastMove, availableMoves } = useContext(GameContext);
 
   useEffect(() => {
-    if (props.letter !== ' ') {
+    if (props.letter !== " ") {
       setValue(props.letter === "X" ? "⚫" : "⚪");
+    }
+    if (availableMoves.includes(props.value)) {
+      setInstruction(true);
+    }else{
+      setInstruction(false);
     }
   });
 
   const onClick = () => {
-    setValue("⚫");
     console.log(`ID: ${props.value}`);
     setLastMove(props.value);
   };
 
   return (
-    <button className="square" onClick={onClick}>
-      {value}
-    </button>
+    <>
+      {instruction ? (
+        <button className="square-ava" onClick={onClick}>
+          {value}
+        </button>
+      ) : (
+        <button className="square" onClick={onClick}>
+          {value}
+        </button>
+      )}
+    </>
   );
 }

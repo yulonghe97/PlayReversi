@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, Box } from "@material-ui/core/";
-import { GameContext } from "../../../View/Game/store/context";
+import { GameContext } from "../../../context/GameContext";
+import CountUp from 'react-countup';
+
 
 const style = {
   border: "solid 2px #9B9B9B",
@@ -11,7 +13,8 @@ const style = {
 };
 
 export default function ScoreCounter() {
-  const { roomId } = useContext(GameContext);
+  const { room, game } = useContext(GameContext);
+
 
   return (
     <div style={{ width: "250px", height: "56px" }}>
@@ -19,14 +22,14 @@ export default function ScoreCounter() {
         <Grid item xs={6}>
           <Box mt="3px">
             {" "}
-            <strong>ID:</strong> {roomId}
+            <strong>ID:</strong> {room.roomId}
           </Box>
         </Grid>
         <Grid item xs={3}>
-          ⚫&nbsp;0
+          ⚫&nbsp;<CountUp duration={0.5} end={game.scoreX || 0} />
         </Grid>
         <Grid item xs={3}>
-          ⚪&nbsp;0
+          ⚪&nbsp;<CountUp duration={0.5} end={game.scoreO || 0} />
         </Grid>
       </Grid>
     </div>

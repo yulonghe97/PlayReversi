@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import Row from "./Row";
 import { Grow } from "@material-ui/core";
-import { GameContext } from "../../../View/Game/store/context";
+import { GameContext } from "../../../context/GameContext";
 
 export default function Board() {
-  const { board, setBoard } = useContext(GameContext);
+  const { game } = useContext(GameContext);
+  const board = game.board;
+
 
   return (
     <>

@@ -1,3 +1,4 @@
+const { func } = require("joi");
 const RoomModel = require("../../model/Room");
 const UserModel = require("../../model/User");
 const log = require("../../utils/log");
@@ -20,6 +21,7 @@ async function findRoom(roomCode) {
     return { message: "Fail to Find Room", error: e.message };
   }
 }
+
 
 // return a list of rooms that are active
 async function findActiveRoom() {
@@ -48,6 +50,7 @@ async function isFull(roomCode) {
   }
 }
 
+
 async function joinRoom(userId, roomId) {
   try {
     // Update Room
@@ -60,9 +63,8 @@ async function joinRoom(userId, roomId) {
     };
     const currentRoom = await RoomModel.findOneAndUpdate(conditions, update, {
       new: true,
-    });
+    }).lean().exec();
     // If room exist, and user never joined before, then join the room
-    console.log(currentRoom);
 
     // Update User
     const res = await UserModel.findByIdAndUpdate(
@@ -112,7 +114,6 @@ async function leaveRoom(userId, roomId) {
     // Update User Status
     log(`[USER LEFT]: ${userId} Leaved Room ${roomId}`, "success");
     // if(!currentRoom) return null;
-    console.log(currentRoom);
 
     return currentRoom;
   } catch (e) {
