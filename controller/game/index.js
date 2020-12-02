@@ -16,7 +16,7 @@ const { func } = require("joi");
  */
 function assignPlayerLetter(game, playerId) {
   // If never assigned
-  if (game.playerO || game.playerX !== playerId) {
+  if (game.playerO !== playerId && game.playerX !== playerId) {
     // Since the letter is assigned once the game is initialized
     // We don't need to assign twice when the host is joined
     if (game.playerO) return { playerX: playerId };
@@ -49,12 +49,14 @@ async function initializeGame(currentPlayerId, roomId) {
     const newGame = new gameModel({
       gameId: gameId,
       board: board,
-      ...assignHostLetter(currentPlayerId),
+      ...assignHostLetter(currentPlayerId)
     });
+
     const savedGame = await newGame.save();
     await roomModel.findByIdAndUpdate(roomId, {
       $set: { gameId: savedGame._id, isOngoing: true },
     });
+
     return { message: "Game Initialized", data: savedGame };
   } catch (e) {
     console.error(e);
@@ -65,14 +67,19 @@ async function initializeGame(currentPlayerId, roomId) {
 async function addPlayerToGame(gameId, currentPlayerId) {
   try {
     const game = await gameModel.findById(gameId).lean().exec();
+
     // Check if player is already in game
     if (isPlayerInGame(game, currentPlayerId)) {
       return { message: "Player Already in Game", error: "PlayerInGame" };
     }
+
+    const letter = assignPlayerLetter(game, currentPlayerId);
+
     const update = {
       $push: { currentPlayers: currentPlayerId },
-      ...assignPlayerLetter(game, currentPlayerId),
+      ...letter,
     };
+
     const newGame = await gameModel.findByIdAndUpdate(gameId, update, {
       new: true,
     });
@@ -83,7 +90,12 @@ async function addPlayerToGame(gameId, currentPlayerId) {
 }
 
 function isPlayerInGame(game, currentPlayerId) {
-  return Boolean(game.currentPlayers.includes(currentPlayerId));
+  for(let i=0; i<game.currentPlayers.length; i++){
+    if(String(game.currentPlayers[i]) === currentPlayerId){
+      return true;
+    }
+  }
+  return false;
 }
 
 function takeTurn(currentTurn) {

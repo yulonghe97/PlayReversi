@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Grid, Box, Avatar, Typography, Divider } from "@material-ui/core";
 import InfoBox from "./InfoBox";
 import { GameContext } from "../../context/GameContext";
-import Game from "../Game";
 
 export default function GameUserInfo(props) {
   

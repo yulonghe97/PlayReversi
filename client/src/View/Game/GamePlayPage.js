@@ -26,6 +26,7 @@ export default function GamePlayPage() {
     setGameEnd,
     gameResult,
     setGameResult,
+    setRoom,
   } = useContext(GameContext);
   const { setError } = useContext(MessageContext);
 
@@ -80,12 +81,17 @@ export default function GamePlayPage() {
       setGameEnd(true);
       setGameResult(res.data);
     });
+    socket.on("leaveRoom", (res) => {
+      if (res.data) {
+        setRoom(res.data);
+      }
+    });
   }, []);
 
   const handleExit = () => {
     socket.emit("leaveRoom", { roomId: user.currentRoom, userId: user._id });
-    history.replace('/');
-  }
+    history.replace("/");
+  };
 
   return (
     <Box
@@ -113,15 +119,20 @@ export default function GamePlayPage() {
             justifyContent="center"
             alignItems="center"
           >
-            <Box display="flex" justifyContent="center"  pb="40px">
+            <Box display="flex" justifyContent="center" pb="40px">
               <ScoreCounter />
             </Box>
             <Game />
           </Box>
         </Grid>
         <Grid item xs={12} sm={8} md={4} lg={1}>
-          <Box display="flex" flexDirection="column" mt="50px" alignItems="center">
-            <Box >
+          <Box
+            display="flex"
+            flexDirection="column"
+            mt="50px"
+            alignItems="center"
+          >
+            <Box>
               <GameUserInfo users={room.currentPlayers} userId={user._id} />
             </Box>
             <Box marginTop="20px">

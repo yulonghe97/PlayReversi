@@ -76,7 +76,6 @@ async function joinRoom(userId, roomId) {
 
     return currentRoom;
   } catch (e) {
-    console.log(e);
     log(`[USER JOIN]: ${userId} unable to join ${roomId}`, "error");
     return { message: "Unable To Join Room", error: e.message };
   }
@@ -126,3 +125,5 @@ async function leaveRoom(userId, roomId) {
 exports.joinRoom = joinRoom;
 exports.leaveRoom = leaveRoom;
 exports.findRoom = findRoom;
+exports.findActiveRoom = findActiveRoom;
+exports.isFull = isFull;

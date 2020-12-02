@@ -1,7 +1,7 @@
 const log = require("../../../utils/log");
 const { leaveRoom } = require("../../../controller/room/index");
 module.exports = function (socket) {
-  socket.on("leaveRoom", async (data) => {
+  socket.on("leaveGame", async (data) => {
     try {
       socket.leave(socket.user_room);
       socket.user_room = null;

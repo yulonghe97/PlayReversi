@@ -9,9 +9,11 @@ module.exports = function (socket) {
         socket.to(roomCode).emit("onInitializing");
         const res = await game.initializeGame(userId, roomId);
         log(`[NEW GAME] ${res.data.gameId} Initialized`, "success");
-        socket.emit("initializeGame", res);
-        socket.to(roomCode).emit("initializeGame", res);   
+        // Add the host to game
+        const gameRes = await game.addPlayerToGame(res.data._id, socket.user_id);
+        socket.to(roomCode).emit("playerCanJoin", gameRes);   
       }catch(e){
+        socket.emit("errormsg", { message: e.message });
         log(e.message, "error");
       }
   });

@@ -8,6 +8,7 @@ import {
   Input,
   InputLabel,
   OutlinedInput,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LogoHeader from "../../Components/LogoHeader/";
@@ -18,10 +19,11 @@ import UserProfileCard from "../../Components/UserProfile";
 import Hidden from "@material-ui/core/Hidden";
 import NavBar from "../../Components/NavBar/";
 import { useHistory } from "react-router-dom";
+import Loading from "../../Components/Loading";
 
-// Context 
+// Context
 import { UserContext } from "../../context/UserContext";
-
+import { socket } from "../../service/socket";
 
 const useStyle = makeStyles({
   button: {
@@ -34,10 +36,27 @@ export default function RoomList() {
   const classes = useStyle();
 
   const [isInRoom, setIsInRoom] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [rooms, setRooms] = useState([]);
+
   // Fetch the data from the user context
   const { user } = useContext(UserContext);
   const history = useHistory();
-  
+
+  useEffect(() => {
+    socket.on("roomList", (rooms) => {
+      if (rooms) {
+        setRooms(rooms.reverse());
+        setLoading(false);
+      }
+    });
+    socket.on("updateRoomList", () => {
+      socket.emit("broadcastRoom");
+    })
+    socket.emit("showRoomList");
+    setLoading(true);
+  }, []);
 
   return (
     <>
@@ -60,7 +79,16 @@ export default function RoomList() {
               <UserProfileCard user={user} />
             </Grid>
             <Grid item xs={12} sm={8} md={7}>
-              <RoomListTable />
+              {loading ? (
+                <>
+                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+                    <Loading />
+                    <Typography style={{marginTop:'30px', fontSize:'20px'}}>Loading Rooms</Typography>
+                  </Box>
+                </>
+              ) : (
+                <RoomListTable rooms={rooms} />
+              )}
             </Grid>
             <Grid item xs={0} sm={0} md={2}>
               &nbsp;

@@ -36,14 +36,14 @@ export default function InitializeGame() {
         setStatus("Both Player Joined");
         setGame(res.data);
         setInitialized(true);
-      } else {
+      }else{
         setStatus("Waiting for another player");
       }
-    });
+      }
+    );
 
-    socket.on("initializeGame", (res) => {
+    socket.on("playerCanJoin", (res) => {
       if (res.data) {
-        console.log(res.data);
         socket.emit("joinGame", { gameId: res.data._id });
       }
     });

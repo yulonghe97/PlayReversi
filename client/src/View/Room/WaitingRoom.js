@@ -42,6 +42,7 @@ export default function WaitingRoom() {
     socket.on("leaveRoom", (res) => updateRoom(res));
     socket.on("sessionExpired", () => {
       setDisabled(true);
+     socket.disconnect();
     });
     socket.on("onInitializing", () => {
       setGameStart(true);
@@ -61,7 +62,7 @@ export default function WaitingRoom() {
       setLoading(false);
     } else {
       setValid(false);
-      alert("Invalid Room");
+      alert(res.message + " reason: " + res.error);
       history.replace("/");
     }
   };
@@ -104,7 +105,7 @@ export default function WaitingRoom() {
                 <GameUserInfo users={players} />
               </Box>
               <Box display="flex" justifyContent="center" mt="40px">
-                {players.length === 2 && isHost ? (
+                {players.length === 2 && user._id === room.roomHost ? (
                   <Button
                     variant="contained"
                     color="primary"
