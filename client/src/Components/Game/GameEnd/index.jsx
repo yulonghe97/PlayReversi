@@ -18,17 +18,17 @@ import { useHistory } from "react-router-dom";
 import { socket } from "../../../service/socket";
 
 const useStyle = makeStyles({
-  avatarLeft: {
-    width: "100px",
-    height: "80px",
-  },
-  avatarRight: {
-    width: "100px",
-    height: "80px",
+  avatar: {
+    width: "180px",
+    height: "160px",
   },
   badge: {
     marginRight: "40px",
   },
+  username:{
+      fontSize:'25px',
+      marginTop:'10px'
+  }
 });
 
 export default function GameEndDialog() {
@@ -38,116 +38,124 @@ export default function GameEndDialog() {
   const classes = useStyle();
 
   const { user } = useContext(UserContext);
-  const { room, game, players, gameResult } = useContext(GameContext);
+  const { gameEnd, room, game, players, gameResult } = useContext(GameContext);
 
-  //   useEffect(() => {
-  //     setOpen(Boolean(user.currentRoom));
-  //   }, [user])
+  const onClose = () => setOpen(false);
+
+  const onBackToRoom = () => {
+    if(user.currentRoom){
+        history.push(`/room/${user.currentRoom}`);
+    }else{
+        history.replace('/');
+    }
+    setOpen(false);
+  }
+
+  const onLeaveRoom = () => {
+    socket.emit("leaveRoom", { roomId: user.currentRoom, userId: user._id });
+    setOpen(false);
+    history.replace('/');
+  }
+
+  useEffect(() => {
+    setOpen(gameEnd);
+  }, [gameEnd]);
 
   return (
     <div>
-      <Dialog
-        open={open}
-        // onClose={}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        disableBackdropClick
-        disableEscapeKeyDown
-      >
-        {/* <DialogTitle id="alert-dialog-title">
-          Game End
-        </DialogTitle> */}
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <h2 style={{ textAlign: "center" }}>
-              {user && gameResult && (
-                <>
-                  {user._id === gameResult.winnerId ? (
-                    <>Congratulations! You Win{":)"}</>
-                  ) : (
-                    <>You Lose {":("}</>
-                  )}
-                </>
-              )}
-            </h2>
-            <Box display="flex" justifyContent="center" padding="50px">
-              {players.map((e) => {
-                return (
+      {user && gameResult && (
+        <Dialog
+          open={open}
+          aria-labelledby="alert-dialog-game-end"
+          aria-describedby="alert-dialog-description"
+          disableBackdropClick
+          disableEscapeKeyDown
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-game-end">
+              <h2 style={{ textAlign: "center" }}>
+                {user && gameResult && (
                   <>
-                    {user._id !== gameResult.winnerId ? (
-                      <>
-                        <Box display="flex" flexDirection="column">
-                          <Avatar className={classes.avatarLeft} src={e.avatar}>
-                            H
-                          </Avatar>
-                          <Badge
-                            className={classes.badge}
-                            badgeContent={"Winner"}
-                            overlap="circle"
-                            color="primary"
-                          ></Badge>
-                          <Box display="flex" justifyContent="center" mt="10px">
-                            <p>{e.name}</p>
-                          </Box>
-                        </Box>
-                      </>
+                    {user._id === gameResult.winnerId ? (
+                      <>Congratulations! You Win{" 🎉"}</>
                     ) : (
-                      <>
-                        <Box display="flex" flexDirection="column">
-                          <Avatar
-                            className={classes.avatarRight}
-                            src={e.avatar}
-                          >
-                            H
-                          </Avatar>
-                          <Box display="flex" justifyContent="center">
-                            <p>{e.name}</p>
-                          </Box>
-                        </Box>
-                      </>
+                      <>You Lose {" 🙁"}</>
                     )}
                   </>
-                );
-              })}
-            </Box>
-            <p>
-              <Box textAlign="center">Score you have earned</Box>
-              <Box textAlign="center">
-                <strong
-                  style={{
-                    color: "#7C4DFF",
-                    marginLeft: "10px",
-                    fontSize: "40px",
-                  }}
-                >
-                  <CountUp
-                    duration={2}
-                    end={
-                      user._id === gameResult.winnerId
-                        ? parseInt(gameResult.scoreEarn)
-                        : 0
-                    }
-                  />
-                </strong>{" "}
+                )}
+              </h2>
+              <Box display="flex" justifyContent="center" padding="50px">
+                {players.map((e) => {
+                  return (
+                    <>
+                      {e._id === gameResult.winnerId && (
+                        <>
+                          <Box display="flex" flexDirection="column">
+                            <Avatar
+                              className={classes.avatar}
+                              src={e.avatar}
+                            >
+                              H
+                            </Avatar>
+                            <Badge
+                              className={classes.badge}
+                              badgeContent={"Winner"}
+                              overlap="circle"
+                              color="primary"
+                            ></Badge>
+                            <Box
+                              display="flex"
+                              justifyContent="center"
+                              mt="10px"
+                            >
+                              <span className={classes.username}>{e.name}</span>
+                            </Box>
+                          </Box>
+                        </>
+                      )}
+                    </>
+                  );
+                })}
               </Box>
-            </p>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Grid container spacing={1} direction="column">
-            <Grid item xs>
-              <Button color="primary" variant="contained" fullWidth>
-                Back to Room
-              </Button>
+              <p>
+                <Box textAlign="center">Score you have earned</Box>
+                <Box textAlign="center">
+                  <strong
+                    style={{
+                      color: "#7C4DFF",
+                      marginLeft: "10px",
+                      fontSize: "40px",
+                    }}
+                  >
+                    <CountUp
+                      duration={3}
+                      end={
+                        user._id === gameResult.winnerId
+                          ? parseInt(gameResult.scoreEarn)
+                          : 0
+                      }
+                    />
+                  </strong>{" "}
+                </Box>
+              </p>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Grid container spacing={1} direction="column">
+              <Grid item xs>
+                <Button onClick={onBackToRoom} color="primary" variant="contained" fullWidth>
+                  Back to Room
+                </Button>
+              </Grid>
+              <Grid item xs>
+                <Button onClick={onLeaveRoom} color="secondary" variant="contained" fullWidth>
+                  Exit
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <Button color="secondary" variant="contained" fullWidth>
-                Exit
-              </Button>
-            </Grid>
-          </Grid>
-        </DialogActions>
-      </Dialog>
+          </DialogActions>
+        </Dialog>
+      )}
     </div>
   );
 }

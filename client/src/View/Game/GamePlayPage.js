@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Grid, Box, Backdrop } from "@material-ui/core";
+import { Grid, Box, Backdrop, Button } from "@material-ui/core";
 import Game from "../../Components/Game";
 import ScoreCounter from "../../Components/Game/ScoreCounter";
 import GameUserInfo from "../../Components/GameUserInfo";
 import GameEndDialog from "../../Components/Game/GameEnd/";
 import { socket } from "../../service/socket";
+
+import { useHistory } from "react-router-dom";
 
 // Controller
 import { GameContext } from "../../context/GameContext";
@@ -13,13 +15,22 @@ import { MessageContext } from "../../context/MessageContext";
 
 export default function GamePlayPage() {
   const { user } = useContext(UserContext);
-  const { lastMove, room, game, setGame, side, setAvailableMoves, gameEnd, setGameEnd, gameResult, setGameResult } = useContext(
-    GameContext
-  );
+  const {
+    lastMove,
+    room,
+    game,
+    setGame,
+    side,
+    setAvailableMoves,
+    gameEnd,
+    setGameEnd,
+    gameResult,
+    setGameResult,
+  } = useContext(GameContext);
   const { setError } = useContext(MessageContext);
 
   const [gameLastMove, setGameLastMove] = useState(false);
-
+  const history = useHistory();
 
   useEffect(() => {
     if (lastMove) {
@@ -41,7 +52,7 @@ export default function GamePlayPage() {
 
   useEffect(() => {
     if (gameLastMove) {
-      console.log('Last Move!');
+      console.log("Last Move!");
       socket.emit("gameEnd", {
         gameId: game._id,
         roomId: room._id,
@@ -67,11 +78,24 @@ export default function GamePlayPage() {
     });
     socket.on("gameEnd", (res) => {
       setGameEnd(true);
-    })
+      setGameResult(res.data);
+    });
   }, []);
 
+  const handleExit = () => {
+    socket.emit("leaveRoom", { roomId: user.currentRoom, userId: user._id });
+    history.replace('/');
+  }
+
   return (
-    <>
+    <Box
+      display="flex"
+      width="100vw"
+      height="80vh"
+      justifyContent="center"
+      alignContent="center"
+      alignItems="center"
+    >
       <GameEndDialog />
       <Grid
         container
@@ -87,23 +111,42 @@ export default function GamePlayPage() {
             display="flex"
             flexDirection="column"
             justifyContent="center"
-            height="600px"
             alignItems="center"
           >
-            <Box display="flex" justifyContent="center" pt="100px" pb="40px">
+            <Box display="flex" justifyContent="center"  pb="40px">
               <ScoreCounter />
             </Box>
             <Game />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={4} md={3} lg={3}>
-          <Box display="flex" flexDirection="column">
-            <Box paddingBottom="40px" paddingTop="100px">
+        <Grid item xs={12} sm={8} md={4} lg={1}>
+          <Box display="flex" flexDirection="column" mt="50px" alignItems="center">
+            <Box >
               <GameUserInfo users={room.currentPlayers} userId={user._id} />
+            </Box>
+            <Box marginTop="20px">
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ width: "280px" }}
+                disabled
+              >
+                Give Up
+              </Button>
+            </Box>
+            <Box marginTop="10px">
+              <Button
+                variant="contained"
+                color="secondary"
+                style={{ width: "280px" }}
+                onClick={handleExit}
+              >
+                Exit
+              </Button>
             </Box>
           </Box>
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 }

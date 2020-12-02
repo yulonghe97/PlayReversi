@@ -152,7 +152,7 @@ async function gameEnd(gameId, roomId) {
     await roomModel.findByIdAndUpdate(roomId, {
       isOngoing: false,
     });
-    return { winner: winner, winnerId: winnerUserId, scoreEarned: scoreEarn };
+    return { winner: winner, winnerId: winnerUserId, scoreEarn: scoreEarn };
   } catch (e) {
     console.error(e);
     return { message: e.message };

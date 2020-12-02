@@ -37,12 +37,12 @@ export default function RoomAlert() {
       <Dialog
         open={open}
         onClose={handleDiscard}
-        aria-labelledby="alert-dialog-title"
+        aria-labelledby="alert-dialog-room-alert"
         aria-describedby="alert-dialog-description"
         disableBackdropClick
         disableEscapeKeyDown
       >
-        <DialogTitle id="alert-dialog-title">Reconnect to your game</DialogTitle>
+        <DialogTitle id="alert-dialog-room-alert">Reconnect to your game</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <h2 style={{textAlign: 'center'}}>Wait!</h2>
