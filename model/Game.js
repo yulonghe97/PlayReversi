@@ -7,17 +7,20 @@ const gameSchema = new mongoose.Schema({
   board: {
     type: [String],
   },
+  lastMoveBoard: {
+    type: [String],
+  },
   playerX: {
     type: mongoose.Schema.Types.ObjectID,
-    ref: 'User',
+    ref: "User",
   },
   playerO: {
-    type:mongoose.Schema.Types.ObjectID,
-    ref: 'User',
+    type: mongoose.Schema.Types.ObjectID,
+    ref: "User",
   },
-  turn:{
+  turn: {
     type: String,
-    default:'X',
+    default: "X",
   },
   currentPlayers: {
     type: [mongoose.Schema.Types.ObjectID],
@@ -41,10 +44,18 @@ const gameSchema = new mongoose.Schema({
   timeLast: {
     type: Date,
   },
-  createDate:{
-      type: Date,
-      default: Date.now()
-  }
+  scoreX:{
+    type: Number,
+    default: 0,
+  },
+  scoreO:{
+    type: Number,
+    default: 0,
+  },
+  createDate: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("Game", gameSchema);

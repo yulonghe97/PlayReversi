@@ -13,6 +13,8 @@ function GameProvider(props) {
   const [lastMove, setLastMove] = useState();
   const [side, setSide] = useState();
   const [availableMoves,setAvailableMoves] = useState([]);
+  const [gameEnd, setGameEnd] = useState(false);
+  const [gameResult, setGameResult] = useState();
 
   const contexts = {
     room,
@@ -28,7 +30,11 @@ function GameProvider(props) {
     side,
     setSide,
     availableMoves,
-    setAvailableMoves
+    setAvailableMoves,
+    gameEnd,
+    setGameEnd,
+    gameResult,
+    setGameResult
   };
 
   return (

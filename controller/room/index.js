@@ -1,3 +1,4 @@
+const { func } = require("joi");
 const RoomModel = require("../../model/Room");
 const UserModel = require("../../model/User");
 const log = require("../../utils/log");
@@ -21,6 +22,8 @@ async function findRoom(roomCode) {
   }
 }
 
+
+
 async function joinRoom(userId, roomId) {
   try {
     // Update Room
@@ -33,7 +36,7 @@ async function joinRoom(userId, roomId) {
     };
     const currentRoom = await RoomModel.findOneAndUpdate(conditions, update, {
       new: true,
-    });
+    }).lean().exec();
     // If room exist, and user never joined before, then join the room
 
     // Update User

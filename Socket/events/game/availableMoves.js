@@ -6,16 +6,15 @@ module.exports = function (socket) {
   socket.on("availableMoves", async (data) => {
     const [board, letter] = [data.board, data.side];
     try {
-      rev.boardToString(board);
       const availableMoves = game.checkAvailableMoves(board, letter);
-      console.log(availableMoves);
       if (availableMoves.length > 0) {
         socket.emit("availableMoves", { data: availableMoves });
       } else {
+        socket.to(socket.user_room).emit('OppoNoAvailableMoves');
         throw new Error("No Available Moves");
       }
     } catch (e) {
-      socket.emit("errormsg", { message: "Error" });
+      socket.emit("errormsg", { message: e.message });
     }
   });
 };

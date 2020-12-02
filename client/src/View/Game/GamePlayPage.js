@@ -3,6 +3,7 @@ import { Grid, Box, Backdrop } from "@material-ui/core";
 import Game from "../../Components/Game";
 import ScoreCounter from "../../Components/Game/ScoreCounter";
 import GameUserInfo from "../../Components/GameUserInfo";
+import GameEndDialog from "../../Components/Game/GameEnd/";
 import { socket } from "../../service/socket";
 
 // Controller
@@ -12,8 +13,13 @@ import { MessageContext } from "../../context/MessageContext";
 
 export default function GamePlayPage() {
   const { user } = useContext(UserContext);
-  const { lastMove, room, game, setGame, side, setAvailableMoves } = useContext(GameContext);
+  const { lastMove, room, game, setGame, side, setAvailableMoves, gameEnd, setGameEnd, gameResult, setGameResult } = useContext(
+    GameContext
+  );
   const { setError } = useContext(MessageContext);
+
+  const [gameLastMove, setGameLastMove] = useState(false);
+
 
   useEffect(() => {
     if (lastMove) {
@@ -34,23 +40,39 @@ export default function GamePlayPage() {
   }, [lastMove]);
 
   useEffect(() => {
-    socket.on("chessDown", (res) => {
+    if (gameLastMove) {
+      console.log('Last Move!');
+      socket.emit("gameEnd", {
+        gameId: game._id,
+        roomId: room._id,
+      });
+    }
+  }, [gameLastMove]);
 
-      if(res.data.turn === side){
+  useEffect(() => {
+    socket.on("chessDown", (res) => {
+      if (res.data.turn === side) {
         socket.emit("availableMoves", {
           board: res.data.board,
           side: side,
-        })
+        });
       }
       setGame(res.data);
     });
     socket.on("availableMoves", (res) => {
       setAvailableMoves(res.data);
     });
+    socket.on("OppoNoAvailableMoves", () => {
+      setGameLastMove(true);
+    });
+    socket.on("gameEnd", (res) => {
+      setGameEnd(true);
+    })
   }, []);
 
   return (
     <>
+      <GameEndDialog />
       <Grid
         container
         justifyContent="center"

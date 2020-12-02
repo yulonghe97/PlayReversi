@@ -8,11 +8,11 @@ module.exports = function (socket) {
       data.side,
       data.lastMove,
       data.room,
-      data.gameId
+      data.gameId,
     ];
     try {
       const newBoard = await game.makeMove(board, letter, move, gameId);
-  
+
       if (newBoard.board) {
         socket.emit("chessDown", { data: newBoard });
         socket.to(room).emit("chessDown", { data: newBoard });
@@ -20,7 +20,7 @@ module.exports = function (socket) {
         socket.emit("errormsg", { message: newBoard.message });
       }
     } catch (e) {
-      socket.emit("errormsg", { message: 'Error'});
+      socket.emit("errormsg", { message: e.message });
       console.error(e.message);
     }
   });

@@ -87,10 +87,15 @@ function makeMove(board, letter, move) {
       rev.algebraicToRowCol(move).col
     );
     newBoard = rev.flipCells(newBoard, flippedCells);
+
+    // Calculate Score
+    const currentScore = rev.getLetterCounts(newBoard);
+
     return {
       lastMove: move,
       oldBoard: board,
       board: newBoard,
+      score: currentScore,
       availableMoves: availableMoves,
     };
   } catch (e) {

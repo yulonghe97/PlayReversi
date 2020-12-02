@@ -2,6 +2,7 @@ const game = require("../../Game/game");
 const rand = require("../../utils/random");
 const gameModel = require("../../model/Game");
 const roomModel = require("../../model/Room");
+const userModel = require("../../model/User");
 const log = require("../../utils/log");
 const { func } = require("joi");
 
@@ -51,7 +52,9 @@ async function initializeGame(currentPlayerId, roomId) {
       ...assignHostLetter(currentPlayerId),
     });
     const savedGame = await newGame.save();
-    await roomModel.findByIdAndUpdate(roomId, { gameId: savedGame._id });
+    await roomModel.findByIdAndUpdate(roomId, {
+      $set: { gameId: savedGame._id, isOngoing: true },
+    });
     return { message: "Game Initialized", data: savedGame };
   } catch (e) {
     console.error(e);
@@ -103,7 +106,15 @@ async function makeMove(board, letter, move, gameId) {
       const savedGame = await gameModel
         .findByIdAndUpdate(
           gameId,
-          { $set: { board: newBoard.board, turn: takeTurn(letter) } },
+          {
+            $set: {
+              board: newBoard.board,
+              oldBoard: newBoard.oldBoard,
+              turn: takeTurn(letter),
+              scoreX: newBoard.score.X,
+              scoreO: newBoard.score.O,
+            },
+          },
           { new: true }
         )
         .lean()
@@ -117,6 +128,37 @@ async function makeMove(board, letter, move, gameId) {
   }
 }
 
+async function gameEnd(gameId, roomId) {
+  const scoreEarn = 99;
+  try {
+    const res = await gameModel.findById(gameId).lean().exec();
+    const winner = res.scoreX > res.scoreO ? "X" : "O";
+    const winnerUserId = res[`player${winner}`];
+    await gameModel.findByIdAndUpdate(gameId, {
+      $set: {
+        winner: winnerUserId,
+        isFinished: true,
+      },
+    });
+    await userModel.findByIdAndUpdate(winnerUserId, {
+      $push: {
+        gameRecords: res._id,
+      },
+      $inc: {
+        score: scoreEarn,
+        matches: 1,
+      },
+    });
+    await roomModel.findByIdAndUpdate(roomId, {
+      isOngoing: false,
+    });
+    return { winner: winner, winnerId: winnerUserId, scoreEarned: scoreEarn };
+  } catch (e) {
+    console.error(e);
+    return { message: e.message };
+  }
+}
+
 function checkAvailableMoves(board, letter) {
   return game.checkAvailableMoves(board, letter);
 }
@@ -126,4 +168,5 @@ module.exports = {
   addPlayerToGame: addPlayerToGame,
   makeMove: makeMove,
   checkAvailableMoves: checkAvailableMoves,
+  gameEnd: gameEnd,
 };
