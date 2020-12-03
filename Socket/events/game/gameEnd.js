@@ -1,6 +1,4 @@
 const game = require("../../../controller/game");
-const rev = require("../../../Game/reversi");
-const log = require("../../../utils/log");
 
 module.exports = function (socket) {
   socket.on("gameEnd", async (data) => {

@@ -38,29 +38,9 @@ const useStyles = makeStyles((theme) => ({
 export default function RoomListTable(props) {
   const classes = useStyles();
 
+
   return (
     <List className={classes.root}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        padding="15px"
-        borderRadius="10px"
-        border="1px solid lightgrey"
-        mb="20px"
-      >
-        <Typography>
-          Room Total
-          <span className={classes.number}>
-            {props.rooms.length || "No Room"}
-          </span>
-        </Typography>
-        <Typography>
-          Waiting<span className={classes.number}>10</span>
-        </Typography>
-        <Typography>
-          Players<span className={classes.number}>395</span>
-        </Typography>
-      </Box>
       {props.rooms.length < 1 && (
         <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
           <img

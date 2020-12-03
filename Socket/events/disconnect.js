@@ -1,7 +1,10 @@
 const { leaveRoom } = require("../../controller/room/index");
 const { checkSid } = require("../../controller/connect/index");
+const log = require("../../utils/log");
+const updateOnlineUserList = require("../controller/updateOnlineUserList");
+const updateRoomList = require("../controller/updateRoomList");
 
-module.exports = function (socket) {
+module.exports = function (socket, io) {
   socket.on("disconnect", async () => {
     try {
       // Check if it's the valid socket to leave the room
@@ -10,10 +13,13 @@ module.exports = function (socket) {
         if (socket.user_room && isValid) {
           const room = await leaveRoom(socket.user_id, socket.user_room);
           socket.to(socket.user_room).emit("leaveRoom", { data: room });
+          // Update User List
+          updateOnlineUserList(io);
+          await updateRoomList(io, socket)
         }
       }
     } catch (e) {
-      log(e.message, "error")
+      log(e.message, "error");
     }
   });
 };

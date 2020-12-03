@@ -15,4 +15,14 @@ async function getUserInfo(userId) {
   }
 }
 
+async function countUsers() {
+  try {
+    const count = await UserModel.count();
+    return count;
+  } catch (e) {
+    throw new Error('Failed to get user count');
+  }
+}
+
 exports.getUserInfo = getUserInfo;
+exports.countUsers = countUsers;

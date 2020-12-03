@@ -1,7 +1,9 @@
 const game = require("../../../controller/game");
 const log = require("../../../utils/log");
 
-module.exports = function (socket) {
+const updateRoomList = require("../../controller/updateRoomList");
+
+module.exports = function (socket, io) {
   socket.on("initializeGame", async (data) => {
       try{
         const [userId, roomId, roomCode] = [data.userId, data.roomId, data.roomCode];
@@ -12,6 +14,7 @@ module.exports = function (socket) {
         // Add the host to game
         const gameRes = await game.addPlayerToGame(res.data._id, socket.user_id);
         socket.to(roomCode).emit("playerCanJoin", gameRes);
+        updateRoomList(io, socket);
       }catch(e){
         socket.emit("errormsg", { message: e.message });
         log(e.message, "error");

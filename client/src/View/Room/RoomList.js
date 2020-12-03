@@ -1,25 +1,16 @@
 import React, { useEffect, useContext, useState } from "react";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  Grid,
-  Input,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-} from "@material-ui/core";
+import { Box, Container, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LogoHeader from "../../Components/LogoHeader/";
 import RoomSearchBar from "../../Components/Room/RoomSearchBar";
 import RoomListTable from "../../Components/Room/RoomListTable";
+import RoomStatistics from "../../Components/Room/RoomStatistics";
 import RoomAlert from "../../Components/Room/RoomAlert";
 import UserProfileCard from "../../Components/UserProfile";
-import Hidden from "@material-ui/core/Hidden";
 import NavBar from "../../Components/NavBar/";
 import { useHistory } from "react-router-dom";
 import Loading from "../../Components/Loading";
+import UserFeed from "../../Components/UserFeed";
 
 // Context
 import { UserContext } from "../../context/UserContext";
@@ -42,19 +33,22 @@ export default function RoomList() {
 
   // Fetch the data from the user context
   const { user } = useContext(UserContext);
-  const history = useHistory();
 
   useEffect(() => {
     socket.on("roomList", (rooms) => {
       if (rooms) {
-        setRooms(rooms.reverse());
+        setRooms(rooms);
         setLoading(false);
       }
     });
     socket.on("updateRoomList", () => {
+      // Received the update request
+      // Tell Everyone to update the room list
       socket.emit("broadcastRoom");
-    })
+    });
+    // Get the room list when loaded
     socket.emit("showRoomList");
+
     setLoading(true);
   }, []);
 
@@ -76,18 +70,35 @@ export default function RoomList() {
             alignItems="start"
           >
             <Grid item xs={12} sm={4} md={3}>
-              <UserProfileCard user={user} />
+              <Grid container direction="column" spacing={2}>
+                <Grid item xs>
+                  <UserProfileCard user={user} />
+                </Grid>
+                <Grid item xs>
+                  <UserFeed />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12} sm={8} md={7}>
               {loading ? (
                 <>
-                  <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    flexDirection="column"
+                  >
                     <Loading />
-                    <Typography style={{marginTop:'30px', fontSize:'20px'}}>Loading Rooms</Typography>
+                    <Typography style={{ marginTop: "30px", fontSize: "20px" }}>
+                      Loading Rooms
+                    </Typography>
                   </Box>
                 </>
               ) : (
-                <RoomListTable rooms={rooms} />
+                <>
+                  <RoomStatistics rooms={rooms} />
+                  <RoomListTable rooms={rooms} />
+                </>
               )}
             </Grid>
             <Grid item xs={0} sm={0} md={2}>

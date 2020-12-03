@@ -1,6 +1,4 @@
-const log = require("../../../utils/log");
 const { joinRoom, findRoom } = require("../../../controller/room/index");
-const { getUserInfo } = require("../../../controller/user/index");
 const { checkConnect } = require("../../../controller/connect/index");
 
 module.exports = function (socket, io) {
@@ -31,6 +29,7 @@ module.exports = function (socket, io) {
       // Join Room
       await joinRoom(userId, currentRoomId);
       socket.join(currentRoomId);
+
 
       // Find Room Info
       const roomInfo = await findRoom(currentRoomId);

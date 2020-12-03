@@ -40,12 +40,12 @@ export default function InfoBox(props) {
         </Grid>
         <Grid xs={9}>
           <Box display="flex" flexDirection="column" marginLeft="10px">
-            <Box pb="5px" style={{ fontSize: "16px", fontWeight: "600px" }}>
+            <Box pb="20px" style={{ fontSize: "16px", fontWeight: "600px" }}>
               {props.name}
             </Box>
-            <Box paddingBottom="10px">NYU</Box>
+            {/* <Box paddingBottom="10px">NYU</Box> */}
             <Divider />
-            <Box paddingTop="10px">Score: {props.score}</Box>
+            <Box paddingTop="10px">🥔 {props.score}</Box>
             <Box paddingTop="5px">Matches: {props.matches}</Box>
           </Box>
         </Grid>

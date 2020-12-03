@@ -24,7 +24,7 @@ function MessageProvider(props) {
   useEffect(() => {
     if (error) {
       setOpen(true);
-      setTimeout(() => setError(''), 2500)
+      setTimeout(() => setOpen(false), 2500);
     }
   }, [error]);
 

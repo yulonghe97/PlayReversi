@@ -51,7 +51,7 @@ export default function UserProfileCard(props) {
           </Grid>
           <Grid item xs>
             <Box>
-              <Typography variant="body2">Score: {user.score}</Typography>
+              <Typography variant="body2">🥔 {user.score}</Typography>
             </Box>
           </Grid>
           <Grid item xs>
@@ -59,11 +59,11 @@ export default function UserProfileCard(props) {
               <Typography variant="body2">Matches: {user.matches}</Typography>
             </Box>
           </Grid>
-          <Grid item xs>
+          {/* <Grid item xs>
             <Box>
               <Typography variant="body2">School: {user.school}</Typography>
             </Box>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Paper>
     </>

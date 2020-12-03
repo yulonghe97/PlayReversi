@@ -33,7 +33,7 @@ const useStyle = makeStyles((theme) => ({
 
 export default function RegisterPage() {
   const classes = useStyle();
-  const [nickname, setNickname] = useState("Set Your Nickname");
+  const [nickname, setNickname] = useState("Your Nickname");
   const [valid, setValid] = useState(false);
   const [avatar, setAvatar] = useState("");
   const [error, setError] = useState("");
@@ -44,21 +44,22 @@ export default function RegisterPage() {
 
   const validateNickname = () => {
     if (
-      nickname !== "Set Your Nickname" &&
+      nickname !== "Your Nickname" &&
       nickname !== "" &&
       nickname !== " " &&
-      nickname.length >= 6
+      nickname.length >= 6 &&
+      nickname.length <= 15
     ) {
       setError("");
       return true;
     } else {
-      setError("Nickname needs minimum 6 characters");
+      setError("At least 6 or maximum 14 letters");
       return false;
     }
   };
 
   useEffect(() => {
-    if (nickname !== "Set Your Nickname") {
+    if (nickname !== "Your Nickname") {
       setValid(validateNickname());
     }
   }, [nickname]);

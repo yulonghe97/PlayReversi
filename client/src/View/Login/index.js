@@ -10,11 +10,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 import Logo from "../../Asset/img/reversi-logo-01.svg";
 import { useHistory } from "react-router-dom";
 import "../../Asset/loading.css";
-
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 // Login Controller
 import login from "../../controller/user/login";
@@ -34,7 +34,7 @@ export default function LoginPage() {
 
   const classes = useStyle();
 
-  const [cookies, setCookie] = useCookies(['_user']);
+  const [cookies, setCookie] = useCookies(["_user"]);
   const history = useHistory();
 
   const isNewAccount = (message) => {
@@ -53,13 +53,17 @@ export default function LoginPage() {
       const res = await login(username, password);
       if (res.data.token) {
         window.localStorage.setItem("_user", JSON.stringify(res.data.user));
-        setCookie("_userId", res.data.user._id, { expires: new Date(Date.now() + 86400 * 1000)});
-        setCookie("_token", res.data.token, { expires: new Date(Date.now() + 86400 * 1000 )});
-        history.push('/');
-      } else {  
+        setCookie("_userId", res.data.user._id, {
+          expires: new Date(Date.now() + 86400 * 1000),
+        });
+        setCookie("_token", res.data.token, {
+          expires: new Date(Date.now() + 86400 * 1000),
+        });
+        history.push("/");
+      } else {
         isNewAccount(res.data.message)
           ? setupRegister()
-          : setError(res.data.message)
+          : setError(res.data.message);
       }
       setLoading(false);
     };
@@ -70,13 +74,16 @@ export default function LoginPage() {
    * Listener for Enter Pressing
    */
   const onEnterPressed = (e) => {
-    if(e.key === 'Enter') onClickStart();
-  }
+    if (e.key === "Enter") onClickStart();
+  };
 
   return (
     <Container>
       <Box display="flex" justifyContent="center" mt="100px">
         <img src={Logo} style={{ height: "150px" }}></img>
+      </Box>
+      <Box display="flex" justifyContent="center">
+        <Typography>Compete. Have Fun.</Typography>
       </Box>
       <Grow in={true}>
         <Box display="flex" justifyContent="center" mt="50px">
@@ -149,8 +156,15 @@ export default function LoginPage() {
         Server Status:{" "}
         <span style={{ color: "green", marginLeft: "10px" }}>Online 🟢 </span>
       </Box>
-      <Box display="flex" justifyContent="center" mt="10px">
-        Players <span style={{ color: "green", marginLeft: "10px" }}>536 </span>
+      <Box display="flex" justifyContent="center" mt="20px">
+        <Button
+          variant="text"
+          disableElevation
+          disableRipple
+          onClick={() => window.location.href = "https://github.com/yulonghe97"}
+        >
+          <GitHubIcon />
+        </Button>
       </Box>
     </Container>
   );
