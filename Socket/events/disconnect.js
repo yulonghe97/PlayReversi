@@ -6,6 +6,7 @@ const updateRoomList = require("../controller/updateRoomList");
 
 module.exports = function (socket, io) {
   socket.on("disconnect", async () => {
+    updateOnlineUserList(io);
     try {
       // Check if it's the valid socket to leave the room
       if (socket.user_id) {
@@ -14,7 +15,6 @@ module.exports = function (socket, io) {
           const room = await leaveRoom(socket.user_id, socket.user_room);
           socket.to(socket.user_room).emit("leaveRoom", { data: room });
           // Update User List
-          updateOnlineUserList(io);
           await updateRoomList(io, socket)
         }
       }
