@@ -42,7 +42,7 @@ export default function WaitingRoom() {
     socket.on("leaveRoom", (res) => updateRoom(res));
     socket.on("sessionExpired", () => {
       setDisabled(true);
-     socket.disconnect();
+      socket.disconnect();
     });
     socket.on("onInitializing", () => {
       setGameStart(true);
@@ -67,9 +67,14 @@ export default function WaitingRoom() {
     }
   };
 
-  useEffect(() => {
-    if (user._id === room.roomHost) setIsHost(true); // Only Host can start the game
-  }, [room]);
+  // useEffect(() => {
+  //   console.log(room);
+  //   console.log(room.isOngoing);
+  //   if (room.isOngoing) {
+  //     socket.emit("reConnectToGame", { gameId: room.gameId });
+  //     setGameStart(true);
+  //   }
+  // }, [room]);
 
   const onLeaveRoom = () => {
     socket.emit("leaveRoom", { roomId: id, userId: currentUser._id });

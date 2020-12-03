@@ -96,6 +96,7 @@ export default function RoomSearchBar() {
                 variant="contained"
                 size="large"
                 color="primary"
+                disabled={loading}
                 onClick={() => onJoiningRoom(room)}
               >
                 Join
@@ -107,6 +108,7 @@ export default function RoomSearchBar() {
               variant="contained"
               size="large"
               color="secondary"
+              disabled={loading}
               onClick={onCreateRoom}
             >
               Create

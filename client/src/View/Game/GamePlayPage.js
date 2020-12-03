@@ -25,6 +25,8 @@ export default function GamePlayPage() {
     gameEnd,
     setGameEnd,
     gameResult,
+    setPlayers,
+    players,
     setGameResult,
     setRoom,
   } = useContext(GameContext);
@@ -32,6 +34,16 @@ export default function GamePlayPage() {
 
   const [gameLastMove, setGameLastMove] = useState(false);
   const history = useHistory();
+
+  const updateRoom = (res) => {
+    if (res.data) {
+      setRoom(res.data);
+      setPlayers(res.data.currentPlayers);
+    } else {
+      alert(res.message + " reason: " + res.error);
+      history.replace("/");
+    }
+  };
 
   useEffect(() => {
     if (lastMove) {
@@ -53,7 +65,6 @@ export default function GamePlayPage() {
 
   useEffect(() => {
     if (gameLastMove) {
-      console.log("Last Move!");
       socket.emit("gameEnd", {
         gameId: game._id,
         roomId: room._id,
@@ -82,14 +93,12 @@ export default function GamePlayPage() {
       setGameResult(res.data);
     });
     socket.on("leaveRoom", (res) => {
-      if (res.data) {
-        setRoom(res.data);
-      }
+      updateRoom(res);
     });
   }, []);
 
   const handleExit = () => {
-    socket.emit("leaveRoom", { roomId: user.currentRoom, userId: user._id });
+    socket.emit("leaveRoom", { roomId: room.roomId, userId: user._id });
     history.replace("/");
   };
 
@@ -133,7 +142,7 @@ export default function GamePlayPage() {
             alignItems="center"
           >
             <Box>
-              <GameUserInfo users={room.currentPlayers} userId={user._id} />
+              <GameUserInfo users={players} userId={user._id} />
             </Box>
             <Box marginTop="20px">
               <Button

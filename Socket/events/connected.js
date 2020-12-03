@@ -10,6 +10,7 @@ const connectedEvent = (socket, io) => {
   require("./game/availableMoves")(socket);
   require("./game/gameEnd")(socket);
   require("./room/broadcastRoom")(socket, io);
+  require("./game/reonnectToGame")(socket);
 
 };
 

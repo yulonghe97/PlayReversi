@@ -28,9 +28,6 @@ module.exports = function (socket, io) {
         socket.to(isSid.sid).emit("sessionExpired", { newSid: socket.id });
       }
 
-      // Find User By Id
-      // const user = await getUserInfo(userId);
-
       // Join Room
       await joinRoom(userId, currentRoomId);
       socket.join(currentRoomId);
@@ -50,7 +47,7 @@ module.exports = function (socket, io) {
         message: "Unable to join room",
         error: e.message,
       });
-      socket.emit("errormsg", { message: e.message })
+      socket.emit("errormsg", { message: e.message });
       console.error(e.message);
     }
   });

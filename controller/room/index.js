@@ -1,4 +1,5 @@
 const { func } = require("joi");
+const Room = require("../../model/Room");
 const RoomModel = require("../../model/Room");
 const UserModel = require("../../model/User");
 const log = require("../../utils/log");
@@ -22,7 +23,6 @@ async function findRoom(roomCode) {
   }
 }
 
-
 // return a list of rooms that are active
 async function findActiveRoom() {
   try {
@@ -36,20 +36,17 @@ async function findActiveRoom() {
 }
 
 //check if the room is full
-async function isFull(roomCode) {
+async function checkIsFull(roomCode) {
   try {
-    const room = await RoomModel.findOne({ roomId: roomCode })
+    const room = await RoomModel.findOne({ roomId: roomCode });
+
     if (room.currentPlayers.length === 2) {
-      return true;
-    } 
-    else {
-      return false;
+      await RoomModel.findOneAndUpdate({ roomId: roomCode }, { isFull: true });
     }
   } catch (e) {
-    return { message: "Connot decide it is full or not", error: e.message };
+    throw e;
   }
 }
-
 
 async function joinRoom(userId, roomId) {
   try {
@@ -63,8 +60,12 @@ async function joinRoom(userId, roomId) {
     };
     const currentRoom = await RoomModel.findOneAndUpdate(conditions, update, {
       new: true,
-    }).lean().exec();
+    })
+      .lean()
+      .exec();
     // If room exist, and user never joined before, then join the room
+
+    await checkIsFull(roomId);
 
     // Update User
     const res = await UserModel.findByIdAndUpdate(
@@ -76,6 +77,7 @@ async function joinRoom(userId, roomId) {
 
     return currentRoom;
   } catch (e) {
+    console.log(e);
     log(`[USER JOIN]: ${userId} unable to join ${roomId}`, "error");
     return { message: "Unable To Join Room", error: e.message };
   }
@@ -100,11 +102,12 @@ async function leaveRoom(userId, roomId) {
     };
     const update = {
       $pull: { currentPlayers: userId },
+      isFull: false,
     };
     const currentRoom = await RoomModel.findOneAndUpdate(conditions, update, {
       new: true,
     })
-      .populate('currentPlayers')
+      .populate("currentPlayers")
       .lean()
       .exec();
     // If Current Room has nobody, then destroy the room
@@ -126,4 +129,3 @@ exports.joinRoom = joinRoom;
 exports.leaveRoom = leaveRoom;
 exports.findRoom = findRoom;
 exports.findActiveRoom = findActiveRoom;
-exports.isFull = isFull;

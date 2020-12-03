@@ -52,7 +52,7 @@ export default function GameEndDialog() {
   }
 
   const onLeaveRoom = () => {
-    socket.emit("leaveRoom", { roomId: user.currentRoom, userId: user._id });
+    socket.emit("leaveRoom", { roomId: room.roomId, userId: user._id });
     setOpen(false);
     history.replace('/');
   }

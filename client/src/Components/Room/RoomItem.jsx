@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    padding:'10px',
+    padding: "10px",
     backgroundColor: theme.palette.background.paper,
   },
   inline: {
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "600",
   },
   roomId: {
-    color: 'white',
+    color: "white",
     fontWeight: "600",
     marginTop: "5px",
     marginBottom: "5px",
@@ -115,7 +115,13 @@ export default function RoomItem(props) {
             }
             placement="top"
           >
-            <Button size="medium" variant="outlined" align="right" onClick={handleJoinRoom}>
+            <Button
+              size="medium"
+              variant="outlined"
+              align="right"
+              onClick={handleJoinRoom}
+              disabled={props.isFull || props.isOngoing}
+            >
               <Typography>Join</Typography>
             </Button>
           </Tooltip>

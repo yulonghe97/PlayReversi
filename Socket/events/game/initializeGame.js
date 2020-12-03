@@ -11,7 +11,7 @@ module.exports = function (socket) {
         log(`[NEW GAME] ${res.data.gameId} Initialized`, "success");
         // Add the host to game
         const gameRes = await game.addPlayerToGame(res.data._id, socket.user_id);
-        socket.to(roomCode).emit("playerCanJoin", gameRes);   
+        socket.to(roomCode).emit("playerCanJoin", gameRes);
       }catch(e){
         socket.emit("errormsg", { message: e.message });
         log(e.message, "error");

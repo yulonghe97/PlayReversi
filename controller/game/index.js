@@ -49,7 +49,7 @@ async function initializeGame(currentPlayerId, roomId) {
     const newGame = new gameModel({
       gameId: gameId,
       board: board,
-      ...assignHostLetter(currentPlayerId)
+      ...assignHostLetter(currentPlayerId),
     });
 
     const savedGame = await newGame.save();
@@ -90,8 +90,8 @@ async function addPlayerToGame(gameId, currentPlayerId) {
 }
 
 function isPlayerInGame(game, currentPlayerId) {
-  for(let i=0; i<game.currentPlayers.length; i++){
-    if(String(game.currentPlayers[i]) === currentPlayerId){
+  for (let i = 0; i < game.currentPlayers.length; i++) {
+    if (String(game.currentPlayers[i]) === currentPlayerId) {
       return true;
     }
   }
@@ -140,18 +140,51 @@ async function makeMove(board, letter, move, gameId) {
   }
 }
 
+function computeScore(winnerChess, winnerScore, loserChess, loserScore) {
+  const gamePercentage = winnerChess / loserChess; //1~2
+  const scorePercentage =
+    winnerScore > loserScore
+      ? winnerScore / loserScore
+      : loserScore / winnerScore;
+  const gameRatio =
+    winnerScore >= loserScore ? gamePercentage * 0.3 : gamePercentage * 0.6; //0.3~1.2
+  const scoreRatio = winnerScore >= loserScore ? 0 : Math.sqrt(scorePercentage);
+  var scoreEarn = 50 * (1 + scoreRatio + gameRatio);
+
+  if (scoreEarn > winnerScore) {
+    scoreEarn = winnerScore;
+  }
+  return Math.round(scoreEarn);
+}
+
 async function gameEnd(gameId, roomId) {
-  const scoreEarn = 99;
   try {
     const res = await gameModel.findById(gameId).lean().exec();
     const winner = res.scoreX > res.scoreO ? "X" : "O";
+    const loser = winner === "X" ? "O" : "X";
     const winnerUserId = res[`player${winner}`];
+    const loserUserId = res[`player${loser}`];
+
+    const winnerChess = winner === "X" ? res.scoreX : res.scoreO;
+    const loserChess = winner === "X" ? res.scoreO : res.scoreX;
+
+    const winnerUser = await userModel.findById(winnerUserId);
+    const loserUser = await userModel.findById(loserUserId);
+
+    const scoreEarn = computeScore(
+      winnerChess,
+      winnerUser.score,
+      loserChess,
+      loserUser.score
+    );
+
     await gameModel.findByIdAndUpdate(gameId, {
       $set: {
         winner: winnerUserId,
         isFinished: true,
       },
     });
+    // Update Winner
     await userModel.findByIdAndUpdate(winnerUserId, {
       $push: {
         gameRecords: res._id,
@@ -161,6 +194,16 @@ async function gameEnd(gameId, roomId) {
         matches: 1,
       },
     });
+    // Update Loser
+    await userModel.findByIdAndUpdate(loserUserId, {
+      $push: {
+        gameRecords: res._id,
+      },
+      $inc: {
+        matches: 1,
+      },
+    });
+    // Update Room Status
     await roomModel.findByIdAndUpdate(roomId, {
       isOngoing: false,
     });
@@ -175,10 +218,25 @@ function checkAvailableMoves(board, letter) {
   return game.checkAvailableMoves(board, letter);
 }
 
+/**
+ *
+ * @param {String} gameId _id
+ */
+async function getGameInfo(gameId) {
+  try {
+    const game = await gameModel.findById(gameId).lean().exec();
+    return game;
+  } catch (e) {
+    console.error(e);
+    return { message: e.message };
+  }
+}
+
 module.exports = {
   initializeGame: initializeGame,
   addPlayerToGame: addPlayerToGame,
   makeMove: makeMove,
   checkAvailableMoves: checkAvailableMoves,
   gameEnd: gameEnd,
+  getGameInfo: getGameInfo,
 };

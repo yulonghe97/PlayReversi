@@ -8,7 +8,6 @@ import { socket } from "../../service/socket";
 import { GameContext } from "../../context/GameContext";
 import { UserContext } from "../../context/UserContext";
 
-import GamePlayPage from "./GamePlayPage";
 
 export default function InitializeGame() {
   const { room, setInitialized, game, setGame, setSide } = useContext(
@@ -47,6 +46,13 @@ export default function InitializeGame() {
         socket.emit("joinGame", { gameId: res.data._id });
       }
     });
+
+    // socket.on("reConnectToGame", (res) => {
+    //   if(res.data){
+    //     setGame(res.data);
+    //     setInitialized(true);
+    //   }
+    // })
 
     // Only allow the game initialized by the host
     if (user._id === room.roomHost) {
