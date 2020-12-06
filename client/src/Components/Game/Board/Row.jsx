@@ -9,6 +9,7 @@ export default function Row(props) {
           <Square
             value={`${String.fromCharCode(65 + i) + (parseInt(props.row) + 1)}`}
             letter={e}
+            key={`${String.fromCharCode(65 + i) + (parseInt(props.row) + 1)}`}
           />
         );
       })}

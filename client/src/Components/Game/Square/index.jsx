@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { GameContext } from "../../../context/GameContext";
+import Chess from "../Chess";
 
 export default function Square(props) {
   const [value, setValue] = useState(null);
@@ -8,9 +9,6 @@ export default function Square(props) {
   const { setLastMove, availableMoves } = useContext(GameContext);
 
   useEffect(() => {
-    if (props.letter !== " ") {
-      setValue(props.letter === "X" ? "⚫" : "⚪");
-    }
     if (availableMoves.includes(props.value)) {
       setInstruction(true);
     }else{
@@ -27,11 +25,11 @@ export default function Square(props) {
     <>
       {instruction ? (
         <button className="square-ava" onClick={onClick}>
-          {value}
+          <Chess letter={props.letter} value={props.value} />
         </button>
       ) : (
         <button className="square" onClick={onClick}>
-          {value}
+          <Chess letter={props.letter} value={props.value} />
         </button>
       )}
     </>

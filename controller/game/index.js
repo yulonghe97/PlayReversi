@@ -121,10 +121,12 @@ async function makeMove(board, letter, move, gameId) {
           {
             $set: {
               board: newBoard.board,
-              oldBoard: newBoard.oldBoard,
+              lastMoveBoard: newBoard.oldBoard,
               turn: takeTurn(letter),
               scoreX: newBoard.score.X,
               scoreO: newBoard.score.O,
+              flippedCells: newBoard.flippedCells,
+              lastMove: move,
             },
           },
           { new: true }
@@ -159,6 +161,7 @@ function computeScore(winnerChess, winnerScore, loserChess, loserScore) {
 
 async function gameEnd(gameId, roomId) {
   try {
+
     const res = await gameModel.findById(gameId).lean().exec();
     const winner = res.scoreX > res.scoreO ? "X" : "O";
     const loser = winner === "X" ? "O" : "X";

@@ -29,6 +29,9 @@ const gameSchema = new mongoose.Schema({
   lastMove: {
     type: [String],
   },
+  flippedCells: {
+    type: [String],
+  },
   isStarted: {
     type: Boolean,
     default: false,
@@ -44,11 +47,11 @@ const gameSchema = new mongoose.Schema({
   timeLast: {
     type: Date,
   },
-  scoreX:{
+  scoreX: {
     type: Number,
     default: 0,
   },
-  scoreO:{
+  scoreO: {
     type: Number,
     default: 0,
   },

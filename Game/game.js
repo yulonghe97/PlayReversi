@@ -54,6 +54,25 @@ function checkAvailableMoves(board, letter) {
 }
 
 /**
+ * Calculate the flipped cells, and reurn the algebraic values
+ * @param {*} cellsToFlip
+ */
+function getFlippedCellsAlgebraic(cellsToFlip) {
+  let rowIndex, colIndex;
+  let converted = [];
+
+  for (let i = 0; i < cellsToFlip.length; i++) {
+    for (let j = 0; j < cellsToFlip[i].length; j++) {
+      rowIndex = cellsToFlip[i][j][0];
+      colIndex = cellsToFlip[i][j][1];
+      converted.push(rowColtoAlgebraic([rowIndex, colIndex]));
+    }
+  }
+
+  return converted;
+}
+
+/**
  * Player make move
  * @param {String} board
  * @param {String} letter
@@ -86,6 +105,7 @@ function makeMove(board, letter, move) {
       rev.algebraicToRowCol(move).row,
       rev.algebraicToRowCol(move).col
     );
+
     newBoard = rev.flipCells(newBoard, flippedCells);
 
     // Calculate Score
@@ -97,6 +117,7 @@ function makeMove(board, letter, move) {
       board: newBoard,
       score: currentScore,
       availableMoves: availableMoves,
+      flippedCells: getFlippedCellsAlgebraic(flippedCells),
     };
   } catch (e) {
     return { message: e.message };

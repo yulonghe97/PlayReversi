@@ -12,15 +12,19 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
+    "framer-motion": "^2.9.5",
     "react": "^17.0.1",
+    "react-card-flip": "^1.0.11",
     "react-cookie": "^4.0.3",
     "react-countup": "^4.3.3",
     "react-dom": "^17.0.1",
     "react-flip-toolkit": "^7.0.13",
+    "react-flippy": "^0.1.5",
     "react-inline-editing": "^1.0.10",
     "react-inlinesvg": "^2.1.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "react-spring": "^8.0.27",
     "socket.io-client": "^2.3.1",
     "web-vitals": "^0.2.4"
   },
@@ -48,5 +52,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://api.reversi.pro"
+  "proxy": "https://localhost:8000"
 }

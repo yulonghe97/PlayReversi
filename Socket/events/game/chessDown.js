@@ -12,6 +12,7 @@ module.exports = function (socket) {
     ];
     try {
       const newBoard = await game.makeMove(board, letter, move, gameId);
+      console.log(newBoard);
 
       if (newBoard.board) {
         socket.emit("chessDown", { data: newBoard });

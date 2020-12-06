@@ -13,7 +13,7 @@ export default function Board() {
       {/* <div className="status">{status}</div> */}
       {board.map((e, i) => {
         if (i % 8 === 0) {
-          return <Row row={i / 8} board={board.slice(i, i + 8)} />;
+          return <Row key={'row' + i} row={i / 8} board={board.slice(i, i + 8)} />;
         }
       })}
     </>
