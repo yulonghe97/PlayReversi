@@ -10,6 +10,9 @@ const LOGOUT = createAPI("/api/user/logout");
 const REGISTER = createAPI("/api/user/register");
 const GET_USER_INFO = createAPI("/api/userinfo");
 
+// Leader Board
+const GET_LEADERBOARD = createAPI("/api/userInfo/userLeaderBoard");
+
 // Room
 const CREATE_ROOM = createAPI("/api/room/createRoom");
 
@@ -21,4 +24,4 @@ const createHeader = () => {
   };
 };
 
-export { LOGIN, LOGOUT, REGISTER, GET_USER_INFO, CREATE_ROOM, createHeader };
+export { LOGIN, LOGOUT, REGISTER, GET_USER_INFO, CREATE_ROOM, GET_LEADERBOARD, createHeader };

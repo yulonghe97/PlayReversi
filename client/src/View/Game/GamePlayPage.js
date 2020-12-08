@@ -27,6 +27,7 @@ export default function GamePlayPage() {
     players,
     setGameResult,
     setRoom,
+    setFlippedCells,
   } = useContext(GameContext);
   const { setError } = useContext(MessageContext);
 
@@ -79,6 +80,7 @@ export default function GamePlayPage() {
         });
       }
       setGame(res.data);
+      setFlippedCells(res.data.flippedCells);
     });
     socket.on("availableMoves", (res) => {
       setAvailableMoves(res.data);

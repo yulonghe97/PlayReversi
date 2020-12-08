@@ -5,6 +5,7 @@ import { GameContext } from "../../../context/GameContext";
 
 export default function Board() {
   const { game } = useContext(GameContext);
+  
   const board = game.board;
 
 

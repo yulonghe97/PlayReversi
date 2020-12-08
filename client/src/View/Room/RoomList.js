@@ -11,6 +11,7 @@ import NavBar from "../../Components/NavBar/";
 import { useHistory } from "react-router-dom";
 import Loading from "../../Components/Loading";
 import UserFeed from "../../Components/UserFeed";
+import LeaderBoard from "../../Components/LeaderBoard";
 
 // Context
 import { UserContext } from "../../context/UserContext";
@@ -70,9 +71,12 @@ export default function RoomList() {
             alignItems="start"
           >
             <Grid item xs={12} sm={4} md={3}>
-              <Grid container direction="column" spacing={2}>
+              <Grid container direction="column" spacing={3}>
                 <Grid item xs>
                   <UserProfileCard user={user} />
+                </Grid>
+                <Grid item xs>
+                  <LeaderBoard />
                 </Grid>
                 <Grid item xs>
                   <UserFeed />
