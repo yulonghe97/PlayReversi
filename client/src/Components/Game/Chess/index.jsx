@@ -34,14 +34,14 @@ export default function Chess(props) {
 
   return (
     <>
-    {flipped ? (
+      {/* {flipped ? (
       <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
         <div>{chess(props.letter, "front")}</div>
         <div>{chess(props.letter, "back")}</div>
       </ReactCardFlip>
-    ) : (
+    ) : ( */}
       <>{chess(props.letter, "front")}</>
-    )}
+      {/* )} */}
     </>
   );
 }
