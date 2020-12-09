@@ -5,6 +5,15 @@ const UserModel = require("../../model/User");
 const log = require("../../utils/log");
 const { deleteSid } = require("../connect/index");
 
+async function findAllRooms(){
+  try {
+    const room = await RoomModel.find().select('roomId').lean().exec();
+    return { data: room };
+  } catch (e) {
+    return { message: "Fail to Find Room", error: e.message };
+  }
+}
+
 /**
  * Find Room Info by Room Code
  *
@@ -129,3 +138,5 @@ exports.joinRoom = joinRoom;
 exports.leaveRoom = leaveRoom;
 exports.findRoom = findRoom;
 exports.findActiveRoom = findActiveRoom;
+exports.findAllRooms = findAllRooms;
+exports.destroyRoom = destroyRoom;

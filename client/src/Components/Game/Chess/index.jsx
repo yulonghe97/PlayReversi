@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useSpring, animated as a } from "react-spring";
 import { GameContext } from "../../../context/GameContext";
 import ReactCardFlip from "react-card-flip";
+import { Grow } from "@material-ui/core";
 // import "./chess.css";
 
 export default function Chess(props) {
