@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function RegularChess(props) {
-
-
   function chess(letter, side) {
     switch (letter) {
       case "X":
@@ -14,9 +12,5 @@ export default function RegularChess(props) {
     }
   }
 
-  return (
-    <>
-        {chess(props.letter, "front")}
-    </>
-  );
+  return <>{chess(props.letter, "front")}</>;
 }

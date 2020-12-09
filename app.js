@@ -3,6 +3,7 @@ const express = require("./node_modules/express");
 const app = express();
 const http = require("http");
 const cors = require('cors')
+const schedule = require('node-schedule');
 
 // Setup Socket.IO, bind to Express
 const socketIo = require("socket.io");
@@ -53,6 +54,8 @@ app.use("/api/userinfo", userRoute);
 
 // Initialize Socket IO Listeners
 initListeners(io);
+require('./scheduledWorks/checkRooms')(schedule, io);
+
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to PlayReversi API" });

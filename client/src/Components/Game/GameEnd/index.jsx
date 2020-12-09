@@ -4,7 +4,6 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Avatar, Grid } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
@@ -25,10 +24,10 @@ const useStyle = makeStyles({
   badge: {
     marginRight: "40px",
   },
-  username:{
-      fontSize:'25px',
-      marginTop:'10px'
-  }
+  username: {
+    fontSize: "25px",
+    marginTop: "10px",
+  },
 });
 
 export default function GameEndDialog() {
@@ -38,24 +37,22 @@ export default function GameEndDialog() {
   const classes = useStyle();
 
   const { user } = useContext(UserContext);
-  const { gameEnd, room, game, players, gameResult } = useContext(GameContext);
-
-  const onClose = () => setOpen(false);
+  const { gameEnd, room, players, gameResult } = useContext(GameContext);
 
   const onBackToRoom = () => {
-    if(user.currentRoom){
-        history.push(`/room/${user.currentRoom}`);
-    }else{
-        history.replace('/');
+    if (user.currentRoom) {
+      history.push(`/room/${user.currentRoom}`);
+    } else {
+      history.replace("/");
     }
     setOpen(false);
-  }
+  };
 
   const onLeaveRoom = () => {
     socket.emit("leaveRoom", { roomId: room.roomId, userId: user._id });
     setOpen(false);
-    history.replace('/');
-  }
+    history.replace("/");
+  };
 
   useEffect(() => {
     setOpen(gameEnd);
@@ -76,10 +73,16 @@ export default function GameEndDialog() {
               <h2 style={{ textAlign: "center" }}>
                 {user && gameResult && (
                   <>
-                    {user._id === gameResult.winnerId ? (
-                      <>Congratulations! You Win{" 🎉"}</>
+                    {gameResult.draw ? (
+                      <>Draw!!</>
                     ) : (
-                      <>You Lose {" 🙁"}</>
+                      <>
+                        {user._id === gameResult.winnerId ? (
+                          <>Congratulations! You Win{" 🎉"}</>
+                        ) : (
+                          <>You Lose {" 🙁"}</>
+                        )}
+                      </>
                     )}
                   </>
                 )}
@@ -91,10 +94,7 @@ export default function GameEndDialog() {
                       {e._id === gameResult.winnerId && (
                         <>
                           <Box display="flex" flexDirection="column">
-                            <Avatar
-                              className={classes.avatar}
-                              src={e.avatar}
-                            >
+                            <Avatar className={classes.avatar} src={e.avatar}>
                               H
                             </Avatar>
                             <Badge
@@ -143,12 +143,22 @@ export default function GameEndDialog() {
           <DialogActions>
             <Grid container spacing={1} direction="column">
               <Grid item xs>
-                <Button onClick={onBackToRoom} color="primary" variant="contained" fullWidth>
+                <Button
+                  onClick={onBackToRoom}
+                  color="primary"
+                  variant="contained"
+                  fullWidth
+                >
                   Back to Room
                 </Button>
               </Grid>
               <Grid item xs>
-                <Button onClick={onLeaveRoom} color="secondary" variant="contained" fullWidth>
+                <Button
+                  onClick={onLeaveRoom}
+                  color="secondary"
+                  variant="contained"
+                  fullWidth
+                >
                   Exit
                 </Button>
               </Grid>

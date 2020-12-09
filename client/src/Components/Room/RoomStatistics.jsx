@@ -12,12 +12,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RoomStatistics(props) {
-    
   const [totalUserCount, setTotalUserCount] = useState(0);
 
   const classes = useStyles();
 
   useEffect(() => {
+    socket.removeEventListener('userCount');
     socket.emit("getTotalUserCount");
     socket.on("userCount", (res) => {
       setTotalUserCount(res);

@@ -13,6 +13,7 @@ const delRedis = promisify(client.del).bind(client);
  * @returns {Object} { exist: Bool, sid: String}
  */
 async function checkConnect(userId, sid) {
+  
   try {
     const oldSid = await getRedis(userId);
     if (oldSid) {
