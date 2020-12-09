@@ -1,7 +1,7 @@
 import { readCookie } from "../utils/cookie";
 
-// const BASE_URL = "https://api.reversi.pro";
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "https://api.reversi.pro";
+// const BASE_URL = "http://localhost:8000";
 const createAPI = (endpoint) => `${BASE_URL}${endpoint}`;
 
 // User
@@ -10,7 +10,6 @@ const LOGOUT = createAPI("/api/user/logout");
 const REGISTER = createAPI("/api/user/register");
 const GET_USER_INFO = createAPI("/api/userinfo");
 
-// Leader Board
 const GET_LEADERBOARD = createAPI("/api/userInfo/userLeaderBoard");
 
 // Room
