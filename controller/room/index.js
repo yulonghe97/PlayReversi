@@ -1,13 +1,14 @@
 const { func } = require("joi");
 const Room = require("../../model/Room");
+const { populate } = require("../../model/Room");
 const RoomModel = require("../../model/Room");
 const UserModel = require("../../model/User");
 const log = require("../../utils/log");
 const { deleteSid } = require("../connect/index");
 
-async function findAllRooms(){
+async function findAllRooms() {
   try {
-    const room = await RoomModel.find().select('roomId').lean().exec();
+    const room = await RoomModel.find().select("roomId").lean().exec();
     return { data: room };
   } catch (e) {
     return { message: "Fail to Find Room", error: e.message };
@@ -32,6 +33,52 @@ async function findRoom(roomCode) {
   }
 }
 
+/**
+ * Check and return room status
+ * Status Code:
+ *             -1 -> Room Does not Exist
+ *            -11 -> Room is Full
+ *              0 -> Room Waiting
+ *              1 -> Room Ongoing
+ *             11 -> Player Joined Before
+ *
+ * @param {String} roomCode
+ */
+
+async function checkRoom(roomCode, playerId) {
+  const NO_ROOM = -1;
+  const ROOM_FULL = -11;
+  const ROOM_ONGOING = 1;
+  const ROOM_WAITING = 0;
+  const PLAYER_ALREADY_JOINED = 11;
+
+  try {
+    const room = await RoomModel.findOne({ roomId: roomCode })
+      .populate("currentPlayers")
+      .lean()
+      .exec();
+
+    console.log(roomCode, playerId);
+    console.log(room);
+
+    const currentPlayers = room.currentPlayers.map((e) => (e._id.toString())) || [];
+
+    console.log(currentPlayers.includes(playerId));
+
+    if (!room) return { status: NO_ROOM };
+    if (room.currentPlayers.length === 2) return { status: ROOM_FULL };
+
+    if (currentPlayers.includes(playerId)) {
+      return { status: PLAYER_ALREADY_JOINED, roomInfo: room }; // If user is already in room, return room info
+    }
+
+    return { status: room.isOngoing ? ROOM_ONGOING : ROOM_WAITING };
+  } catch (e) {
+    console.error(e);
+    throw new Error("Unable to Check Room");
+  }
+}
+
 // return a list of rooms that are active
 async function findActiveRoom() {
   try {
@@ -44,25 +91,11 @@ async function findActiveRoom() {
   }
 }
 
-//check if the room is full
-async function checkIsFull(roomCode) {
-  try {
-    const room = await RoomModel.findOne({ roomId: roomCode });
-
-    if (room.currentPlayers.length === 2) {
-      await RoomModel.findOneAndUpdate({ roomId: roomCode }, { isFull: true });
-    }
-  } catch (e) {
-    throw e;
-  }
-}
-
-async function joinRoom(userId, roomId) {
+async function joinRoom(userId, roomCode) {
   try {
     // Update Room
     const conditions = {
-      roomId: roomId,
-      currentPlayers: { $ne: userId },
+      roomId: roomCode,
     };
     const update = {
       $push: { currentPlayers: userId },
@@ -70,25 +103,18 @@ async function joinRoom(userId, roomId) {
     const currentRoom = await RoomModel.findOneAndUpdate(conditions, update, {
       new: true,
     })
+      .populate("currentPlayers")
       .lean()
       .exec();
-    // If room exist, and user never joined before, then join the room
-
-    await checkIsFull(roomId);
 
     // Update User
-    const res = await UserModel.findByIdAndUpdate(
-      userId,
-      { currentRoom: roomId },
-      { new: true }
-    );
-    log(`[USER JOIN]: ${userId} Joined ROOM: ${roomId}`, "success");
+    await UserModel.findByIdAndUpdate(userId, { currentRoom: roomCode });
 
+    log(`[USER JOIN]: ${userId} Joined ROOM: ${roomCode}`, "success");
     return currentRoom;
   } catch (e) {
-    console.log(e);
-    log(`[USER JOIN]: ${userId} unable to join ${roomId}`, "error");
-    return { message: "Unable To Join Room", error: e.message };
+    console.error(e);
+    throw Error(e);
   }
 }
 
@@ -140,3 +166,4 @@ exports.findRoom = findRoom;
 exports.findActiveRoom = findActiveRoom;
 exports.findAllRooms = findAllRooms;
 exports.destroyRoom = destroyRoom;
+exports.checkRoom = checkRoom;

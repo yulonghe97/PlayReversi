@@ -12,6 +12,7 @@ import Chat from "../../Components/Chat";
 // Context
 import { GameContext } from "../../context/GameContext";
 import { UserContext } from "../../context/UserContext";
+import { MessageContext } from "../../context/MessageContext";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -19,6 +20,17 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
   },
 }));
+
+const dismountListeners = (socket) => {
+  const events = [
+    "joinRoom",
+    "leaveRoom",
+    "sessionExpired",
+    "onInitializing",
+    "roomStatus",
+  ];
+  events.forEach((e) => socket.off(e));
+};
 
 export default function WaitingRoom() {
   const { id } = useParams();
@@ -33,38 +45,63 @@ export default function WaitingRoom() {
 
   const { room, setRoom, players, setPlayers } = useContext(GameContext);
   const { user } = useContext(UserContext);
+  const { setError } = useContext(MessageContext);
 
   // get user info
   const currentUser = JSON.parse(window.localStorage.getItem("_user"));
   // Join the waiting room
 
   useEffect(() => {
+
+
+    setLoading(true);
+    dismountListeners(socket);
+
     socket.on("joinRoom", (res) => updateRoom(res));
     socket.on("leaveRoom", (res) => updateRoom(res));
     socket.on("sessionExpired", () => {
+      alert('Expired!!!!')
       setDisabled(true);
-      socket.disconnect();
+      // socket.disconnect();
     });
     socket.on("onInitializing", () => {
       setGameStart(true);
     });
-    setLoading(true);
-    socket.emit("joinRoom", {
-      roomId: id,
-      user: currentUser.name,
-      userId: currentUser._id,
+
+    socket.on("roomStatus", (status) => {
+      switch (status) {
+        case 0:
+          socket.emit("joinRoom", {
+            roomId: id,
+            user: user.name,
+            userId: user._id,
+            playerAlreadyJoined: false,
+          });
+          break;
+        case 1:
+          // Reconnect to game
+          break;
+      }
+    });
+
+
+
+    /**
+     * Check Room Status Before joining the room
+     */
+    socket.emit("checkRoomStatus", {
+      roomCode: id,
+      playerId: user._id,
     });
   }, []);
 
   const updateRoom = (res) => {
-    if (res.data) {
-      setRoom(res.data);
-      setPlayers(res.data.currentPlayers);
+    if (res.roomInfo) {
+      setRoom(res.roomInfo);
+      setPlayers(res.roomInfo.currentPlayers);
       setLoading(false);
-    } else {
-      setValid(false);
-      alert(res.message + " reason: " + res.error);
-      history.replace("/");
+    }else{
+      setDisabled(true);
     }
   };
 

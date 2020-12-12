@@ -54,5 +54,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://api.reversi.pro"
+  "proxy": "http://localhost:8000"
 }

@@ -11,7 +11,6 @@ router.post("/createRoom", verify, async (req, res) => {
   const newRoom = await new Room({
     roomId: id,
     roomHost: req.body.userId,
-    currentPlayers: req.body.userId,
   }).save();
 
   log(`[NEW ROOM]: ${newRoom.roomId}`, "success");

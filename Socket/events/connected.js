@@ -6,6 +6,7 @@ const connectedEvent = (socket, io) => {
   require("./room/joinRoom")(socket, io);
   require("./room/leaveRoom")(socket, io);
   require("./room/showRoomList")(socket);
+  require("./room/checkRoomStatus")(socket, io);
   require("./game/joinGame")(socket);
   require("./game/initializeGame")(socket, io);
   require("./game/chessDown")(socket);
