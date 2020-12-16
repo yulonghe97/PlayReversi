@@ -20,9 +20,16 @@ DB_CONNECT = { YOUR CONNECTION STRING }
 TOKEN_SECRET = { TOKEN SECRET }
 ```
 
-To start the project
+To start the backend, run
 
 ```
+$ npm start
+```
+
+To start the frontend, run
+
+```
+$ cd client
 $ npm start
 ```
 
