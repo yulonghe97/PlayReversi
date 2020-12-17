@@ -7,9 +7,9 @@ We are developing a multiplayer web-based Reversi Game that college students can
 
 ## How to Run
 
-One way to run the project is to go to website  reversi.pro
+We strongly recommand that you go straight to our website reversi.pro instead of running it on your local machine.
 
-The second way is to run it on your local machine:
+Steps for running on local machine:
 
 To Initialize the project, type in the terminal
 
@@ -25,10 +25,13 @@ Before starting the project, you have to create **.env** file in folder, it shou
 DB_CONNECT = { YOUR CONNECTION STRING }
 TOKEN_SECRET = { TOKEN SECRET }
 ```
-You have to connect to redis, by typing this in another terminal
+
+You have to connect to redis, by typing this in another terminal （after you installed redis on your computer）
+
 ```
 $ redis-server
 ```
+And Mongodb should also be installed in the local machine.
 
 To start the backend, run
 
