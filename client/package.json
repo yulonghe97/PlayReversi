@@ -15,6 +15,8 @@
     "framer-motion": "^2.9.5",
     "react": "^17.0.1",
     "react-card-flip": "^1.0.11",
+    "react-chat-elements": "^10.13.0",
+    "react-chat-widget": "^3.0.5",
     "react-cookie": "^4.0.3",
     "react-countup": "^4.3.3",
     "react-dom": "^17.0.1",
@@ -52,5 +54,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://localhost:8000"
+  "proxy": "https://api.reversi.pro"
 }

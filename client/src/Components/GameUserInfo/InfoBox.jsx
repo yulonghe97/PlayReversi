@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Grid, Box, Avatar, Divider } from "@material-ui/core";
 import { GameContext } from "../../context/GameContext";
+import "./animation.css"
 
 export default function InfoBox(props) {
 
@@ -21,6 +22,7 @@ export default function InfoBox(props) {
       borderRadius="10px"
       marginBottom="10px"
       borderColor={color}
+      className={props.side && props.side === game.turn ? "heartbeat" : ""}
     >
       <Grid container direction="row" spacing={2}>
         <Grid xs={3}>
@@ -32,9 +34,11 @@ export default function InfoBox(props) {
           >
             <Avatar src={props.avatar}>H</Avatar>
             {props.side && (
+              <>
               <div style={{ fontSize: "18px", paddingTop: "15px" }}>
                 {props.side === "X" ? <span>⚫</span> : <span>⚪</span>}
               </div>
+              </>
             )}
           </Box>
         </Grid>

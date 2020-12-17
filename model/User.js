@@ -42,6 +42,9 @@ const userSchema = new mongoose.Schema({
   },
   currentRoom:{
       type: String,
+  },
+  rank:{
+    type: Number
   }
 });
 

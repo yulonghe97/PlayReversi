@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, createContext } from "react";
 
 const GameContext = createContext();
 
@@ -7,14 +7,13 @@ function GameProvider(props) {
   const [players, setPlayers] = useState([]);
   const [initialized, setInitialized] = useState(false);
 
-
-
   const [game, setGame] = useState();
   const [lastMove, setLastMove] = useState();
   const [side, setSide] = useState();
-  const [availableMoves,setAvailableMoves] = useState([]);
+  const [availableMoves, setAvailableMoves] = useState([]);
   const [gameEnd, setGameEnd] = useState(false);
   const [gameResult, setGameResult] = useState();
+  const [flippedCells, setFlippedCells] = useState([]);
 
   const contexts = {
     room,
@@ -34,7 +33,9 @@ function GameProvider(props) {
     gameEnd,
     setGameEnd,
     gameResult,
-    setGameResult
+    setGameResult,
+    flippedCells,
+    setFlippedCells,
   };
 
   return (

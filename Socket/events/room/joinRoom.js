@@ -23,6 +23,7 @@ module.exports = function (socket, io) {
       // Bind room to socket
       socket.user_room = currentRoomId;
 
+
       // Check if the user already has connection
       const isSid = await checkConnect(userId, socket.id);
       if (isSid.exist) {

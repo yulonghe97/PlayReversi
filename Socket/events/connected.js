@@ -14,6 +14,12 @@ const connectedEvent = (socket, io) => {
   require("./room/broadcastRoom")(socket, io);
   require("./game/reonnectToGame")(socket);
   require("./user/getTotalUserCount")(socket);
+  require("./chat/sendChatMessage")(socket, io);
+  require("./chat/joinChat")(socket, io);
+
+  socket.on('reconnect', (data) => {
+    console.log(socket.id + 'tempted to reconnect');
+  })
 
 };
 

@@ -27,6 +27,7 @@ export default function GamePlayPage() {
     players,
     setGameResult,
     setRoom,
+    setFlippedCells,
   } = useContext(GameContext);
   const { setError } = useContext(MessageContext);
 
@@ -79,6 +80,7 @@ export default function GamePlayPage() {
         });
       }
       setGame(res.data);
+      setFlippedCells(res.data.flippedCells);
     });
     socket.on("availableMoves", (res) => {
       setAvailableMoves(res.data);
@@ -104,7 +106,7 @@ export default function GamePlayPage() {
     <Box
       display="flex"
       width="100vw"
-      height="80vh"
+      height="90vh"
       justifyContent="center"
       alignContent="center"
       alignItems="center"
@@ -115,24 +117,25 @@ export default function GamePlayPage() {
         justifyContent="center"
         alignItems="center"
         alignContent="center"
+        direction="row-reverse"
       >
-        <Grid item lg={3}>
+        <Grid item lg={3} md={2} sm={0}>
           &nbsp;
         </Grid>
-        <Grid item sm={12} sm={8} md={6} lg={6}>
+        <Grid item sm={12} sm={12} md={6} lg={6}>
           <Box
             display="flex"
             flexDirection="column"
             justifyContent="center"
             alignItems="center"
           >
-            <Box display="flex" justifyContent="center" pb="40px">
+            <Box display="flex" justifyContent="center" mb="40px">
               <ScoreCounter />
             </Box>
             <Game />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={8} md={4} lg={1}>
+        <Grid item xs={12} sm={12} md={4} lg={1}>
           <Box
             display="flex"
             flexDirection="column"

@@ -67,7 +67,7 @@
   transition: transform 1s ease-in;
 }
 
-.flip-chess-inner {
+.chessContainer:hover, .flip-chess-inner {
   transform: rotateY(180deg);
 }
 

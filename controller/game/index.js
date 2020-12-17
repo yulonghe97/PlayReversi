@@ -182,56 +182,85 @@ function computeScore(winnerChess, winnerScore, loserChess, loserScore) {
  */
 async function gameEnd(gameId, roomId) {
   try {
-
     const res = await gameModel.findById(gameId).lean().exec();
-    const winner = res.scoreX > res.scoreO ? "X" : "O";
-    const loser = winner === "X" ? "O" : "X";
-    const winnerUserId = res[`player${winner}`];
-    const loserUserId = res[`player${loser}`];
 
-    const winnerChess = winner === "X" ? res.scoreX : res.scoreO;
-    const loserChess = winner === "X" ? res.scoreO : res.scoreX;
+    // Draw Situation
+    if (res.scoreX === res.scoreO) {
+      await gameModel.findByIdAndUpdate(gameId, { isFinished: true });
 
-    const winnerUser = await userModel.findById(winnerUserId);
-    const loserUser = await userModel.findById(loserUserId);
+      await userModel.findByIdAndUpdate(res.playerX, {
+        $push: {
+          gameRecords: res._id,
+        },
+        $inc: {
+          matches: 1,
+        },
+      });
 
-    const scoreEarn = computeScore(
-      winnerChess,
-      winnerUser.score,
-      loserChess,
-      loserUser.score
-    );
+      await userModel.findByIdAndUpdate(res.playerO, {
+        $push: {
+          gameRecords: res._id,
+        },
+        $inc: {
+          matches: 1,
+        },
+      });
 
-    await gameModel.findByIdAndUpdate(gameId, {
-      $set: {
-        winner: winnerUserId,
-        isFinished: true,
-      },
-    });
-    // Update Winner
-    await userModel.findByIdAndUpdate(winnerUserId, {
-      $push: {
-        gameRecords: res._id,
-      },
-      $inc: {
-        score: scoreEarn,
-        matches: 1,
-      },
-    });
-    // Update Loser
-    await userModel.findByIdAndUpdate(loserUserId, {
-      $push: {
-        gameRecords: res._id,
-      },
-      $inc: {
-        matches: 1,
-      },
-    });
-    // Update Room Status
-    await roomModel.findByIdAndUpdate(roomId, {
-      isOngoing: false,
-    });
-    return { winner: winner, winnerId: winnerUserId, scoreEarn: scoreEarn };
+      await roomModel.findByIdAndUpdate(roomId, {
+        isOngoing: false,
+      });
+
+      return { draw: true, scoreEarn: 0 };
+    } else {
+      const winner = res.scoreX > res.scoreO ? "X" : "O";
+      const loser = winner === "X" ? "O" : "X";
+      const winnerUserId = res[`player${winner}`];
+      const loserUserId = res[`player${loser}`];
+
+      const winnerChess = winner === "X" ? res.scoreX : res.scoreO;
+      const loserChess = winner === "X" ? res.scoreO : res.scoreX;
+
+      const winnerUser = await userModel.findById(winnerUserId);
+      const loserUser = await userModel.findById(loserUserId);
+
+      const scoreEarn = computeScore(
+        winnerChess,
+        winnerUser.score,
+        loserChess,
+        loserUser.score
+      );
+
+      await gameModel.findByIdAndUpdate(gameId, {
+        $set: {
+          winner: winnerUserId,
+          isFinished: true,
+        },
+      });
+      // Update Winner
+      await userModel.findByIdAndUpdate(winnerUserId, {
+        $push: {
+          gameRecords: res._id,
+        },
+        $inc: {
+          score: scoreEarn,
+          matches: 1,
+        },
+      });
+      // Update Loser
+      await userModel.findByIdAndUpdate(loserUserId, {
+        $push: {
+          gameRecords: res._id,
+        },
+        $inc: {
+          matches: 1,
+        },
+      });
+      // Update Room Status
+      await roomModel.findByIdAndUpdate(roomId, {
+        isOngoing: false,
+      });
+      return { winner: winner, winnerId: winnerUserId, scoreEarn: scoreEarn };
+    }
   } catch (e) {
     console.error(e);
     return { message: e.message };

@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import Square from "../Square";
 
 export default function Row(props) {
+
+
   return (
     <div className="board-row">
       {props.board.map((e, i) => {

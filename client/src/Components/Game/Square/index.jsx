@@ -1,23 +1,29 @@
 import React, { useState, useContext, useEffect } from "react";
 import { GameContext } from "../../../context/GameContext";
 import Chess from "../Chess";
+import RegularChess from "./Regular";
 
 export default function Square(props) {
   const [value, setValue] = useState(null);
   const [instruction, setInstruction] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
 
-  const { setLastMove, availableMoves } = useContext(GameContext);
+  const { setLastMove, availableMoves, flippedCells } = useContext(GameContext);
 
   useEffect(() => {
     if (availableMoves.includes(props.value)) {
       setInstruction(true);
-    }else{
+    } else {
       setInstruction(false);
+    }
+    if (flippedCells.includes(props.value)) {
+      setIsFlipped(true);
+    } else {
+      setIsFlipped(false);
     }
   });
 
   const onClick = () => {
-    console.log(`ID: ${props.value}`);
     setLastMove(props.value);
   };
 
@@ -25,11 +31,13 @@ export default function Square(props) {
     <>
       {instruction ? (
         <button className="square-ava" onClick={onClick}>
-          <Chess letter={props.letter} value={props.value} />
+          <RegularChess letter={props.letter} value={props.value} />
         </button>
       ) : (
         <button className="square" onClick={onClick}>
-          <Chess letter={props.letter} value={props.value} />
+          <>
+            <RegularChess letter={props.letter} value={props.value} />
+          </>
         </button>
       )}
     </>

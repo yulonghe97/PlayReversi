@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Box, Button, Backdrop } from "@material-ui/core";
+import { Box, Button, Backdrop, Grid, Container } from "@material-ui/core";
 import GameUserInfo from "../../Components/GameUserInfo";
 import { useParams, useHistory } from "react-router-dom";
 import { socket } from "../../service/socket";
@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Loading from "../../Components/Loading";
 import LogoHeader from "../../Components/LogoHeader";
 import Game from "../Game";
+import Chat from "../../Components/Chat";
 
 // Context
 import { GameContext } from "../../context/GameContext";
@@ -90,51 +91,56 @@ export default function WaitingRoom() {
       <Backdrop className={classes.backdrop} open={disabled}>
         <h2>Oops :( seems like you have another connection</h2>
       </Backdrop>
+      <Box display="flex" justifyContent="center">
+        <Chat roomCode={id} />
+      </Box>
       {gameStart ? (
         <Game />
       ) : (
-        <>
+        <Container>
           <Box mt="10px">
             <LogoHeader />
           </Box>
           <Box display="flex" justifyContent="center" mt="10px">
             <h1>Room # {id}</h1>
           </Box>
-          {loading ? (
-            <Box display="flex" justifyContent="center" mt="20px">
-              <Loading />
-            </Box>
-          ) : (
-            <>
-              <Box display="flex" justifyContent="center" mt="40px">
-                <GameUserInfo users={players} />
+          <>
+            {loading ? (
+              <Box display="flex" justifyContent="center" mt="20px">
+                <Loading />
               </Box>
-              <Box display="flex" justifyContent="center" mt="40px">
-                {players.length === 2 && user._id === room.roomHost ? (
+            ) : (
+              <>
+                <Box display="flex" justifyContent="center" mt="40px">
+                  <GameUserInfo users={players} />
+                </Box>
+                <Box display="flex" justifyContent="center" mt="40px">
+                  {players.length === 2 && user._id === room.roomHost ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={onStartGame}
+                    >
+                      Start
+                    </Button>
+                  ) : (
+                    <Button variant="contained" color="primary" disabled>
+                      Start
+                    </Button>
+                  )}
                   <Button
                     variant="contained"
-                    color="primary"
-                    onClick={onStartGame}
+                    color="secondary"
+                    style={{ marginLeft: "20px" }}
+                    onClick={onLeaveRoom}
                   >
-                    Start
+                    Leave
                   </Button>
-                ) : (
-                  <Button variant="contained" color="primary" disabled>
-                    Start
-                  </Button>
-                )}
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  style={{ marginLeft: "20px" }}
-                  onClick={onLeaveRoom}
-                >
-                  Leave
-                </Button>
-              </Box>
-            </>
-          )}
-        </>
+                </Box>
+              </>
+            )}
+          </>
+        </Container>
       )}
     </>
   );
