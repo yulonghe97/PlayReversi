@@ -1,6 +1,10 @@
 const game = require("../../../controller/game");
 const log = require("../../../utils/log");
 
+/**
+ * one player makes a move, then notify the board 
+ * @param   {Object}  socket
+ */
 module.exports = function (socket) {
   socket.on("chessDown", async (data) => {
     const [board, letter, move, room, gameId] = [

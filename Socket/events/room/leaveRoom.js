@@ -1,6 +1,10 @@
 const log = require("../../../utils/log");
 const { leaveRoom } = require("../../../controller/room/index");
 
+/**
+ * player leaves room
+ * @param   {Object}  socket
+ */
 module.exports = function (socket, io) {
   socket.on("leaveRoom", async (data) => {
     try {

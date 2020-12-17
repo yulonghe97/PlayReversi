@@ -2,6 +2,11 @@
 const User = require("../model/User");
 const log = require("../utils/log");
 
+/**
+ * Connet user to the room 
+ * @param {Object} newUser
+ * @param {Object} rooms 
+ */
 function registerUser(rooms, newUser) {
   const roomId = newUser.room;
 

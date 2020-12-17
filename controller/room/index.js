@@ -23,7 +23,10 @@ async function findRoom(roomCode) {
   }
 }
 
-// return a list of rooms that are active
+/**
+ * return a list of rooms that are active
+ * @return room list
+ */
 async function findActiveRoom() {
   try {
     const room = await RoomModel.find({ isActive: true })
@@ -35,7 +38,7 @@ async function findActiveRoom() {
   }
 }
 
-//check if the room is full
+
 async function checkIsFull(roomCode) {
   try {
     const room = await RoomModel.findOne({ roomId: roomCode });
@@ -48,6 +51,12 @@ async function checkIsFull(roomCode) {
   }
 }
 
+/**
+ * let one user join a specific room
+ * @param   {String}  userId
+ * @param   {String}  roomId
+ * @return  room
+ */
 async function joinRoom(userId, roomId) {
   try {
     // Update Room
@@ -83,6 +92,10 @@ async function joinRoom(userId, roomId) {
   }
 }
 
+/**
+ * delete a room from the database
+ * @param   {String}  roomId
+ */
 async function destroyRoom(roomId) {
   try {
     await RoomModel.deleteOne({ roomId: roomId });
@@ -92,6 +105,12 @@ async function destroyRoom(roomId) {
   }
 }
 
+/**
+ * let one user leave a specific room
+ * @param   {String}  userId
+ * @param   {String}  roomId
+ * @return  room
+ */
 async function leaveRoom(userId, roomId) {
   try {
     // Delete Room from user

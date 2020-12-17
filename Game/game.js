@@ -1,6 +1,10 @@
 const { func } = require("joi");
 const rev = require("./reversi");
 
+/**
+ * set up the board
+ * @param {Number}  width
+ */
 function initializeGame(width) {
   const CenterPositionIndex = width / 2 - 1;
   const board = rev.generateBoard(width, width, " ");

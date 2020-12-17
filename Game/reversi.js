@@ -1,5 +1,6 @@
 // reversi.js This will contain the helper function for the programs
-
+// since these are helper functions, the documentation would be found on our documentation link
+// at https://www.yuque.com/gkz71a/playreversi
 
 /*
 
@@ -10,6 +11,7 @@ This function creates an Array that contains value as each element for n element
 @Returns:       an Array containing n elements, with each element being value
 
  */
+
 
 
 function repeat (value, n){

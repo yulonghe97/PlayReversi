@@ -15,7 +15,7 @@ const RedisClient  = redis.createClient();
  */
 router.post("/register", async (req, res) => {
 
-  //check if the combination is valid (满足长度等需求)
+  //check if the combination is valid 
   const { error } = registerValidation(req.body);
   if (error) return res.status(200).send({ message: error.details[0].message });
 
@@ -96,7 +96,12 @@ router.post("/login", async (req, res) => {
 
 
 
-
+/**
+ * Logout User
+ * @endpoint: /logout
+ * @method: GET
+ * @description:logout the user
+ */
 router.get("/logout", async (req, res) => {
 
   // get token by header and store it in the redis, set the token

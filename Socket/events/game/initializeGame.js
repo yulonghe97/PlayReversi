@@ -2,7 +2,10 @@ const game = require("../../../controller/game");
 const log = require("../../../utils/log");
 
 const updateRoomList = require("../../controller/updateRoomList");
-
+/**
+ * initialize the game and board
+ * @param   {Object}  socket
+ */
 module.exports = function (socket, io) {
   socket.on("initializeGame", async (data) => {
       try{

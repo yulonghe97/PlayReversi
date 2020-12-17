@@ -1,6 +1,9 @@
 const { joinRoom, findRoom } = require("../../../controller/room/index");
 const { checkConnect } = require("../../../controller/connect/index");
-
+/**
+ * join players to game
+ * @param   {Object}  socket
+ */
 module.exports = function (socket, io) {
   socket.on("joinRoom", async (data) => {
     try {

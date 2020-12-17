@@ -5,6 +5,7 @@ const roomModel = require("../../model/Room");
 const userModel = require("../../model/User");
 const log = require("../../utils/log");
 const { func } = require("joi");
+const { endianness } = require("os");
 
 /**
  * Assign the player who joined the game
@@ -63,7 +64,12 @@ async function initializeGame(currentPlayerId, roomId) {
     return { message: "Failed to initialize Game", error: e.message };
   }
 }
-
+/**
+ * When a player attempts to join the game, first check validation, then update the game status
+ * @param   {String}  currentPlayerId  user _id
+ * @param   {String}  gameId           room _id
+ * @return  {String}  Saved Game Info
+ */
 async function addPlayerToGame(gameId, currentPlayerId) {
   try {
     const game = await gameModel.findById(gameId).lean().exec();
@@ -89,6 +95,12 @@ async function addPlayerToGame(gameId, currentPlayerId) {
   }
 }
 
+/**
+ * helper function: check is the player is in game
+ * @param   {String}  currentPlayerId  user _id
+ * @param   {String}  game             game
+ * @return  {Bool} 
+ */
 function isPlayerInGame(game, currentPlayerId) {
   for (let i = 0; i < game.currentPlayers.length; i++) {
     if (String(game.currentPlayers[i]) === currentPlayerId) {
@@ -142,6 +154,9 @@ async function makeMove(board, letter, move, gameId) {
   }
 }
 
+/**
+ * helper function: compute the score the winner wins
+ */
 function computeScore(winnerChess, winnerScore, loserChess, loserScore) {
   const gamePercentage = winnerChess / loserChess; //1~2
   const scorePercentage =
@@ -159,6 +174,12 @@ function computeScore(winnerChess, winnerScore, loserChess, loserScore) {
   return Math.round(scoreEarn);
 }
 
+/**
+ * When the game ends, clean up the room, update the two players' overall score
+ * @param   {String}  gameId  game _id
+ * @param   {String}  roomId  room _id
+ * @return  {Object}  winner Info
+ */
 async function gameEnd(gameId, roomId) {
   try {
 
@@ -222,7 +243,7 @@ function checkAvailableMoves(board, letter) {
 }
 
 /**
- *
+ * helper function
  * @param {String} gameId _id
  */
 async function getGameInfo(gameId) {
