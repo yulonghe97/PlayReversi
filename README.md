@@ -56,7 +56,7 @@ contributors:
 
 Yulong He : Front End Developer, Software Architect, Back-end Developer
 
-Connie Hall: Game core, Unit Testing, Documentation，Website design
+Connie Hall: Game core, Interacitve Web Design, Unit Testing, Documentation
 
 Jane Zhang: back-end developer, game core and database 
 
