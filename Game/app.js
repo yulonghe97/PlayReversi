@@ -52,13 +52,7 @@ function assignRandomRoomId (){
   return Math.random().toString(36).substring(2, 8)
 }
 
-/*
-    Initialize Game without the scripted moving
-    # it will ask player the width of the board
-    # it will ask player the letter
-    # it will initialize the board based on player's setting
 
- */
 
 /**
  * Initialize Game without the scripted moving
