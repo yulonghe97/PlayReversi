@@ -7,9 +7,14 @@ We are developing a multiplayer web-based Reversi Game that college students can
 
 ## How to Run
 
+One way to run the project is to go reversi.pro
+The second way is to run it on your local machine:
+
 To Initialize the project, type in the terminal
 
 ```
+$ npm install
+$ cd client 
 $ npm install
 ```
 
@@ -18,6 +23,10 @@ Before starting the project, you have to create **.env** file in folder, it shou
 ```js
 DB_CONNECT = { YOUR CONNECTION STRING }
 TOKEN_SECRET = { TOKEN SECRET }
+```
+You have to connect to redis, by typing this in another terminal
+```
+$ redis-server
 ```
 
 To start the backend, run
@@ -32,6 +41,19 @@ To start the frontend, run
 $ cd client
 $ npm start
 ```
+
+To run test:
+```
+$ npm install mocha chai  
+$ ./node_modules/mocha/bin/mocha test.js
+```
+
+contributors:
+```
+Yulong He : Front End Developer, Software Architect, Back-end Developer
+Connie Hall: Game core, AI, Unit Testing, Documentation
+Jane Zhang: back-end developer, game core and database 
+
 
 ## API Reference
 
