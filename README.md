@@ -53,8 +53,11 @@ $ ./node_modules/mocha/bin/mocha test.js
 ```
 
 contributors:
+
 Yulong He : Front End Developer, Software Architect, Back-end Developer
-Connie Hall: Game core, AI, Unit Testing, Documentation
+
+Connie Hall: Game core, Unit Testing, Documentation，Website design
+
 Jane Zhang: back-end developer, game core and database 
 
 ```
