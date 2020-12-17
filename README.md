@@ -7,7 +7,8 @@ We are developing a multiplayer web-based Reversi Game that college students can
 
 ## How to Run
 
-One way to run the project is to go reversi.pro
+One way to run the project is to go to website  reversi.pro
+
 The second way is to run it on your local machine:
 
 To Initialize the project, type in the terminal
@@ -49,12 +50,11 @@ $ ./node_modules/mocha/bin/mocha test.js
 ```
 
 contributors:
-```
 Yulong He : Front End Developer, Software Architect, Back-end Developer
 Connie Hall: Game core, AI, Unit Testing, Documentation
 Jane Zhang: back-end developer, game core and database 
 
-
+```
 ## API Reference
 
 https://www.yuque.com/gkz71a/playreversi
