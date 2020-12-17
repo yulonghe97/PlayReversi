@@ -1,5 +1,8 @@
 /* eslint no-unused-expressions: "off" */
 
+// this test already contains many description of what it does, so there would be no
+// other unnecessary comments
+
 const chai = require('chai');
 const expect = chai.expect; 
 const rev = require('./Game/reversi');
