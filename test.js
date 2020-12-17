@@ -17,7 +17,7 @@ describe('reversi', function() {
     });
 
     describe('generateBoard', function() {
-        // TODO: write test for version with default " " value
+        // write test for version with default " " value
         it('generates a board with specified number of rows and columns', function() {
             const board = rev.generateBoard(3, 3, " ");
             const expected = [" ", " ", " ", " ", " ", " ", " ", " ", " ",];
