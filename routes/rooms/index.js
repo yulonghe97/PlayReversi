@@ -4,6 +4,11 @@ const Room = require("../../model/Room");
 const rand = require("../../utils/random");
 const log = require("../../utils/log");
 
+/**
+ * Create room
+ * POST
+ * @body userId 
+ */
 router.post("/createRoom", verify, async (req, res) => {
   const id = rand.generateRoomId();
 

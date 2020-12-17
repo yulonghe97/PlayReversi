@@ -3,7 +3,8 @@ const log = require("../../utils/log");
 
 /**
  * Return User Info without password
- * @param userId
+ * @param {String} userId
+ * @return {Object} user
  */
 async function getUserInfo(userId) {
   try {
@@ -15,6 +16,10 @@ async function getUserInfo(userId) {
   }
 }
 
+/**
+ * Return number of users
+ * @return {Number} numberUsers
+ */
 async function getUserLeaderBoard(amount) {
   try {
     const leaderBoard = await UserModel.find({}, "name score avatar")

@@ -1,6 +1,10 @@
 const log = require("../../../utils/log");
 const game = require("../../../controller/game");
 
+/**
+ * add two players to the game
+ * @param   {Object}  socket
+ */
 module.exports = function (socket) {
   socket.on("joinGame", async (req) => {
     try{

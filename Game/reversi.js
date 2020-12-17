@@ -1,15 +1,7 @@
 // reversi.js This will contain the helper function for the programs
+// documentation for this file: go to the link below:
+// https://www.yuque.com/gkz71a/playreversi
 
-
-/*
-
-This function creates an Array that contains value as each element for n elements.
-
-@Parameters:    value - the value to be repeated
-                n - the number of times to repeat the value
-@Returns:       an Array containing n elements, with each element being value
-
- */
 
 
 function repeat (value, n){

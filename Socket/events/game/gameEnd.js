@@ -1,5 +1,9 @@
 const game = require("../../../controller/game");
 
+/**
+ * notify the game and room that the game has ended
+ * @param   {socket}  socket
+ */
 module.exports = function (socket) {
   socket.on("gameEnd", async (data) => {
     try {

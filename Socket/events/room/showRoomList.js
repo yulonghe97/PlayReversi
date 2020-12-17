@@ -1,4 +1,9 @@
 const { findActiveRoom } = require("../../../controller/room/index");
+
+/**
+ * display all rooms
+ * @param   {Object}  socket
+ */
 module.exports = function (socket) {
   socket.on("showRoomList", async () => {
     try {

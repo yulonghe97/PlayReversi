@@ -2,6 +2,10 @@ const game = require("../../../controller/game");
 const rev = require("../../../Game/reversi");
 const log = require("../../../utils/log");
 
+/**
+ * check if there are available moves, and display
+ * @param   {Object}  socket
+ */
 module.exports = function (socket) {
   socket.on("availableMoves", async (data) => {
     const [board, letter] = [data.board, data.side];

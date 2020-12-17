@@ -2,6 +2,10 @@ const game = require("../../../controller/game");
 const rev = require("../../../Game/reversi");
 const log = require("../../../utils/log");
 
+/**
+ * if the user gave up, then end game
+ * @param   {Object}  socket
+ */
 module.exports = function (socket) {
   socket.on("userGiveUp", async (data) => {
     try {

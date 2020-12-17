@@ -1,5 +1,10 @@
 const { findActiveRoom } = require("../../controller/room/index");
 
+/**
+ * update the room list
+ * @param   {Object}  io
+ * @param   {Object}  socket
+ */
 async function updateRoomList(io, socket) {
   try {
     const list = await findActiveRoom();

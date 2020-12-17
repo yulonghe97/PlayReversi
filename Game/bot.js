@@ -1,3 +1,4 @@
+/*
 const { initializeGame } = require("./game");
 const rev = require("./reversi");
 const game = require('./game');
@@ -189,3 +190,4 @@ let playerBoard = initializeGame(8);
 const result = botOptimalMove(playerBoard, "X", "E6");
 
 console.log(result);
+*/
