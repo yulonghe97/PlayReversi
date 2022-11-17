@@ -29,8 +29,7 @@ const userRoute = require("./routes/user/index");
 //const { RedisClient } = require("redis");
 // Redis
 const redis = require("redis");
-const REDIS_PORT  = process.env.REDIS_PORT || 6379;
-const RedisClient = redis.createClient(REDIS_PORT);
+const RedisClient = redis.createClient({ url: process.env.REDIS_CONNECT_URL });
 RedisClient.on("error", function(error) {
   console.error(error);
 });
